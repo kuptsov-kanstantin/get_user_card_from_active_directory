@@ -383,16 +383,21 @@ namespace to_doc
             this.dep = new List<string>();
             this.LU = this.GetALLUsers();
 
-            var temp = this.LU;
+            var temp = new List<String>();
+            for (int i = 0; i < this.LU.Count; i++) { 
+                temp.Add(this.LU[i].DEPARTMENT); 
+            
+            }
+       
             temp.Sort();
             for (int i = 0; i < temp.Count - 1; i++)
             {
-                if (String.Compare(temp[i].DEPARTMENT, temp[i + 1].DEPARTMENT) != 0)
+                if (String.Compare(temp[i], temp[i + 1]) != 0)
                 {
-                    this.dep.Add(temp[i].DEPARTMENT);
+                    this.dep.Add(temp[i]);
                 }
             }
-            this.dep.Add(temp[temp.Count - 1].DEPARTMENT);
+            this.dep.Add(temp[temp.Count - 1]);
             return this.dep;
         }
 
