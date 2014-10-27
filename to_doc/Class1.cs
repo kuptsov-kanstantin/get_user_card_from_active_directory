@@ -114,6 +114,11 @@ namespace to_doc
         }
         ~NAME_id() { }
     }
+
+    /*
+     СДЕЛАТЬ ДЕРЕВО
+     */
+
     public class user_card
     {
         public user_card() { this.init(); }
@@ -243,7 +248,7 @@ namespace to_doc
             //Close this form.
             //this.Close();
         }
-      public  PrincipalContext ctx;
+        public PrincipalContext ctx;
         GroupPrincipal grp;
         List<String> gruops;
         List<NAME_id> users;
@@ -256,7 +261,8 @@ namespace to_doc
             {
                 this.ctx = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
             }
-            catch(Exception e){
+            catch (Exception e)
+            {
                 this.ctx = null;
             }
         }
@@ -285,7 +291,7 @@ namespace to_doc
                 var f = grp.Members;
                 foreach (Principal p in tt)
                 {
-                    var e = (DirectoryEntry)p.GetUnderlyingObject(); 
+                    var e = (DirectoryEntry)p.GetUnderlyingObject();
                     String FIO, mail, login;
                     FIO = test_obs(e, "cn");
                     mail = test_obs(e, "mail");
@@ -370,19 +376,24 @@ namespace to_doc
         }
 
         List<Users> LU;
-        List<String > dep;
+        List<String> dep;
         /*получение списка отделов... теперь!*/
-        void GetAllDep() {
+        public List<String> GetAllDep()
+        {
             this.dep = new List<string>();
             this.LU = this.GetALLUsers();
 
-            for (int i = 0; i < this.LU.Count; i++ ) {
-                this.LU[i].DEPARTMENT;
-            
-            
-            
+            var temp = this.LU;
+            temp.Sort();
+            for (int i = 0; i < temp.Count - 1; i++)
+            {
+                if (String.Compare(temp[i].DEPARTMENT, temp[i + 1].DEPARTMENT) != 0)
+                {
+                    this.dep.Add(temp[i].DEPARTMENT);
+                }
             }
-
+            this.dep.Add(temp[temp.Count - 1].DEPARTMENT);
+            return this.dep;
         }
 
         /*групп*/
@@ -394,7 +405,7 @@ namespace to_doc
             {
                 foreach (var result in searcher.FindAll())
                 {
-                    
+
                     hhf.Add(result.Name);
                 }
             }
@@ -543,7 +554,7 @@ namespace to_doc
                     {
                         var DE = resEnt.GetDirectoryEntry();
                         var PP = DE.Properties;
-                        var tt = PP.PropertyNames;            
+                        var tt = PP.PropertyNames;
                     }
                 }
                 catch (Exception f)

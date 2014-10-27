@@ -40,7 +40,7 @@ namespace Общее_приложение_для_AD
             }
             else
             {
-                var GGL = this.asdf.GetGruopList();
+                var GGL = this.asdf.GetAllDep();
                 for (int i = 0; i < GGL.Count; i++)
                 {
                     comboBox1.Items.Add(GGL[i]);
