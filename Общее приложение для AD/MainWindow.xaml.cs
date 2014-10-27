@@ -33,14 +33,22 @@ namespace Общее_приложение_для_AD
         {
             InitializeComponent();
             this.asdf = new to_doc.user_card();
-            var GGL = this.asdf.GetGruopList();
-            for (int i = 0; i < GGL.Count; i++)
-            {
-                comboBox1.Items.Add(GGL[i]);
+            if (this.asdf.ctx == null) {
+                MessageBox.Show("Нет доступа к домену!!!");
+                Close();
+              
             }
-            if (comboBox1.Items.Count > 0)
+            else
             {
-                comboBox1.SelectedIndex = 0;
+                var GGL = this.asdf.GetGruopList();
+                for (int i = 0; i < GGL.Count; i++)
+                {
+                    comboBox1.Items.Add(GGL[i]);
+                }
+                if (comboBox1.Items.Count > 0)
+                {
+                    comboBox1.SelectedIndex = 0;
+                }
             }
         }
 

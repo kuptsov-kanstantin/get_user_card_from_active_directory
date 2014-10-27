@@ -243,7 +243,7 @@ namespace to_doc
             //Close this form.
             //this.Close();
         }
-        PrincipalContext ctx;
+      public  PrincipalContext ctx;
         GroupPrincipal grp;
         List<String> gruops;
         List<NAME_id> users;
@@ -252,7 +252,13 @@ namespace to_doc
         /*инициализация связи с доменом*/
         public void init()
         {
-            this.ctx = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            try
+            {
+                this.ctx = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            }
+            catch(Exception e){
+                this.ctx = null;
+            }
         }
 
         /**/
