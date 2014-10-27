@@ -376,7 +376,12 @@ namespace to_doc
             this.dep = new List<string>();
             this.LU = this.GetALLUsers();
 
-            for (int i = 0; i < this.LU.Count; i++ ) { }
+            for (int i = 0; i < this.LU.Count; i++ ) {
+                this.LU[i].DEPARTMENT;
+            
+            
+            
+            }
 
         }
 
