@@ -71,6 +71,26 @@ namespace Общее_приложение_для_AD
         private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             namess.Items.Clear();
+
+            var GGL = this.asdf.GetAllDep();
+
+            var department = GGL[comboBox1.SelectedIndex];
+            for (int u = 0; u < this.asdf.UsersOnList.Count; u++)
+            {
+                var USER = this.asdf.UsersOnList[u];
+                if (String.Compare(USER.DEPARTMENT, department) == 0)
+                {
+                    namess.Items.Add(USER.FIO + " | " + USERs[i].login);
+                }
+                if (namess.Items.Count > 0)
+                {
+                    namess.SelectedIndex = 0;
+                }
+
+            }
+
+
+
             var USERs = this.asdf.GetUserList(comboBox1.SelectedIndex);
             if (USERs != null)
             {

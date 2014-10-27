@@ -310,7 +310,7 @@ namespace to_doc
 
 
 
-
+        /*НАВЕРНО ТУТ БУДУ ИСКАТЬ ЧЕЛА ПО SID*/
         /*Получение всех пользователей*/
         public List<Users> GetALLUsers()
         {
@@ -375,17 +375,18 @@ namespace to_doc
             return null;
         }
 
-        List<Users> LU;
+       public  List<Users> UsersOnList;
         List<String> dep;
         /*получение списка отделов... теперь!*/
         public List<String> GetAllDep()
         {
             this.dep = new List<string>();
-            this.LU = this.GetALLUsers();
+            this.UsersOnList = this.GetALLUsers();
 
             var temp = new List<String>();
-            for (int i = 0; i < this.LU.Count; i++) { 
-                temp.Add(this.LU[i].DEPARTMENT); 
+            for (int i = 0; i < this.UsersOnList.Count; i++)
+            {
+                temp.Add(this.UsersOnList[i].DEPARTMENT); 
             
             }
        
