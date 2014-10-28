@@ -54,10 +54,10 @@ namespace csv_интерпритация
                     //фамилия  //день    //время
                     if (i - 1 >= 0)
                     {
-                        //сравнивае с фамилии.
+                        //сравнение с фамилией.
                         if (String.Compare(saf[i - 1, 0], saf[i, 0]) == 0)
                         {
-                            //сравнивае с датой.
+                            //сравнение с датой.
                             if (String.Compare(saf[i - 1, 1], saf[i, 1]) == 0)
                             {
                                 this.BD_c.Add(saf[i, 2]);
@@ -144,10 +144,10 @@ namespace csv_интерпритация
             WS_exc.get_Range("D5", Type.Missing).VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
             WS_exc.get_Range("D5", Type.Missing).WrapText = true;
             double per_dt = 0;
-            var count_bd = BD_f.D_T_l.Count;
+            var count_bd = BD_f.data_lists.Count;
             for (int data = 0; data < count_bd; data++)
             {
-                var perem = BD_f.D_T_l[data];
+                var perem = BD_f.data_lists[data];
                 if (perem.data != null)
                 {
                     //DATA_otch = perem.data;
@@ -209,14 +209,6 @@ namespace csv_интерпритация
         /*типа main))*/
         public void ff_osn()
         {
-
-
-
-
-            /*
-
-
-
             this.xlApp = new Excel.Application("test.xsxl");
             if (xlApp == null)
             {
@@ -224,6 +216,11 @@ namespace csv_интерпритация
                 return;
             }
             wb = this.xlApp.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
+
+
+/*
+            
+
             int zn = 0;
             var TRANSLIT = BD_c.D_T;
             for (int id = 0; id < TRANSLIT.Count; id++)
@@ -281,7 +278,7 @@ namespace csv_интерпритация
                     }
                     if (asnaeb == false)
                     {
-                        this.fiajsdkfjh = id;
+                     //   this.fiajsdkfjh = id;
                         var ws_n = (Excel.Worksheet)this.xlApp.Worksheets.Add();
                         ws_n = this.ListSheets(ws_n, null, TRANSLIT_name, "Начальник отдела");
                     }
@@ -289,14 +286,14 @@ namespace csv_интерпритация
                 else
                 {
                     var aaa = this.BD_c.D_T[id];
-                    this.fiajsdkfjh = id;
+                    //this.fiajsdkfjh = id;
                     var ws_n = (Excel.Worksheet)this.xlApp.Worksheets.Add();
                     ws_n = this.ListSheets(ws_n, null, aaa, "Начальник отдела");
                 }
             }
-            this.xlApp.Visible = true;//// делает видимым окно экселя...      
+            this.xlApp.Visible = true;//// делает видимым окно экселя...   */   
             // save();
-            this.timer.Stop();*/
+          //  this.timer.Stop();
         }
     }
 

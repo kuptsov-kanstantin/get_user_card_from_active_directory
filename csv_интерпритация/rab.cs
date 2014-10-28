@@ -102,14 +102,14 @@ namespace csv_интерпритация
     {
         public String familia;
         Data_time_class D_T;
-        public List<Data_time_class> D_T_l;
+        public List<Data_time_class> data_lists;
         public fam_class(){   }
         //новый человек. сохраняет фамилию и инициализирует время и дату.
         public fam_class(String familia_)
         {
             this.familia = familia_;
             this.D_T = new Data_time_class();
-            this.D_T_l = new List<Data_time_class>();
+            this.data_lists = new List<Data_time_class>();
         }
         //добавление времени к текущему человеку в текущей дате.
         public void fam_cl_add(String time_)
@@ -125,7 +125,7 @@ namespace csv_интерпритация
         }
         public void update()
         {
-            this.D_T_l.Add(this.D_T);
+            this.data_lists.Add(this.D_T);
         }
         public fam_class(String familia_, String data_, String time_)
         {
@@ -134,11 +134,11 @@ namespace csv_интерпритация
     }
     public class BD_class
     {
-        public List<fam_class> D_T;
-        public fam_class asd;
+        public List<fam_class> list_of_users;
+        private fam_class asd;
         public BD_class()
         {
-            D_T = new List<fam_class>();
+            list_of_users = new List<fam_class>();
             asd = new fam_class();
         }
         // нового человека с фамилией... добавление к нему даты и время
@@ -161,7 +161,7 @@ namespace csv_интерпритация
         public void update()
         {
             this.asd.update();
-            this.D_T.Add(this.asd);
+            this.list_of_users.Add(this.asd);
         }
     }
 

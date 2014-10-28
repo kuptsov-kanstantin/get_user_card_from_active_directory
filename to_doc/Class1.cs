@@ -360,7 +360,7 @@ namespace to_doc
             }
             else
             {
-                return new NAME_id(test_obs(e1, "sAMAccountName"), test_obs(e1, "cn"), test_obs(e1, "mail"), "Директор");
+                return new NAME_id(test_obs(e1, "sAMAccountName"), test_obs(e1, "cn"), test_obs(e1, "mail"), "----");
 
             }
 

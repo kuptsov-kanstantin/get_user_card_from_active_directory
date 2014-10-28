@@ -258,6 +258,7 @@ namespace Общее_приложение_для_AD
         {
             this.EX = new csv_интерпритация.Excel_work();
             this.EX.csv_to_DB(this.file_name);
+           var test =  this.EX.BD_c;
             //throw new NotImplementedException();
         }
 
