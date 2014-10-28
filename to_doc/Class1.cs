@@ -105,12 +105,14 @@ namespace to_doc
         public string login;
         public string FIO;
         public string mail;
+        public string nach_of_depart;
         public NAME_id() { }
-        public NAME_id(string login, string FIO, string mail)
+        public NAME_id(string login, string FIO, string mail, string nach_of_depart)
         {
             this.login = login;
             this.FIO = FIO;
             this.mail = mail;
+            this.nach_of_depart = nach_of_depart;
         }
         ~NAME_id() { }
     }
@@ -291,12 +293,15 @@ namespace to_doc
                 var f = grp.Members;
                 foreach (Principal p in tt)
                 {
-                    var e = (DirectoryEntry)p.GetUnderlyingObject();
-                    String FIO, mail, login;
-                    FIO = test_obs(e, "cn");
-                    mail = test_obs(e, "mail");
-                    login = test_obs(e, "sAMAccountName");
-                    this.users.Add(new NAME_id(login, FIO, mail));
+                    var e = (DirectoryEntry)p.GetUnderlyingObject();                 
+                    this.users.Add(
+                        new NAME_id(
+                            test_obs(e, "sAMAccountName"),
+                            test_obs(e, "cn"),
+                            test_obs(e, "mail"), 
+                            test_obs(e, "manager")
+                            )
+                            );
                 }
             }
             return this.users;
@@ -312,6 +317,55 @@ namespace to_doc
 
         /*НАВЕРНО ТУТ БУДУ ИСКАТЬ ЧЕЛА ПО SID*/
         /*Получение всех пользователей*/
+
+        public NAME_id GetUSERbySID(string SID)
+        {
+            var ctx = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            UserPrincipal foundUser = UserPrincipal.FindByIdentity(ctx, IdentityType.Sid, SID);/// поиск пользователя
+            var e1 = (DirectoryEntry)foundUser.GetUnderlyingObject();//получение информации о человеке
+            String FIO, mail, login, department, manager, FIO_n;
+
+
+       /*     var USER = new NAME_id(test_obs(e1, "sAMAccountName"), test_obs(e1, "cn"), test_obs(e1, "mail"), 
+                
+                );*/
+
+
+
+
+            /*
+            FIO = test_obs(e1, "cn");
+            string sid = test_obs(e1, "objectsid");
+            mail = test_obs(e1, "mail");
+            login = test_obs(e1, "sAMAccountName");
+            department = test_obs(e1, "department");
+            */
+            if ((e1.Properties["manager"]).Value != null)
+            {
+
+
+                manager = (e1.Properties["manager"]).Value.ToString();
+                UserPrincipal foundUser1 = UserPrincipal.FindByIdentity(ctx, manager);
+                var e11 = (DirectoryEntry)foundUser1.GetUnderlyingObject();
+                FIO_n = test_obs(e11, "cn");
+
+                return new NAME_id(test_obs(e1, "sAMAccountName"), test_obs(e1, "cn"), test_obs(e1, "mail"), FIO_n);
+
+            }
+            else
+            {
+                return new NAME_id(test_obs(e1, "sAMAccountName"), test_obs(e1, "cn"), test_obs(e1, "mail"), "Директор");
+
+            }
+
+            
+
+        }
+
+
+
+
+
         public List<Users> GetALLUsers()
         {
             try

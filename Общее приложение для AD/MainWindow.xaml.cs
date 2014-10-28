@@ -77,21 +77,21 @@ namespace Общее_приложение_для_AD
             var department = GGL[comboBox1.SelectedIndex];
             for (int u = 0; u < this.asdf.UsersOnList.Count; u++)
             {
+                MessageBox.Show(String.Format("Идет загрузка списка. {0} из {1} ", u, this.asdf.UsersOnList.Count));
                 var USER = this.asdf.UsersOnList[u];
                 if (String.Compare(USER.DEPARTMENT, department) == 0)
                 {
-                    namess.Items.Add(USER.FIO + " | " + USERs[i].login);
-                }
-                if (namess.Items.Count > 0)
-                {
-                    namess.SelectedIndex = 0;
-                }
-
+                    var user2 = this.asdf.GetUSERbySID(USER.SID);
+                    namess.Items.Add(user2.FIO + " | " + user2.login);
+                }     
+            }
+            if (namess.Items.Count > 0)
+            {
+                namess.SelectedIndex = 0;
             }
 
 
-
-            var USERs = this.asdf.GetUserList(comboBox1.SelectedIndex);
+           /* var USERs = this.asdf.GetUserList(comboBox1.SelectedIndex);
             if (USERs != null)
             {
                 for (int i = 0; i < USERs.Count; i++)
@@ -102,7 +102,7 @@ namespace Общее_приложение_для_AD
                 {
                     namess.SelectedIndex = 0;
                 }
-            }
+            }*/
         }
         /*пользователи*/
         private void namess_SelectionChanged(object sender, SelectionChangedEventArgs e)
