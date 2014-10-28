@@ -18,11 +18,13 @@ namespace Общее_приложение_для_AD
     /// </summary>
     public partial class hod_ : Window
     {  
+        
         public hod_()
         {
             InitializeComponent();
         }
         public void Setup_param(int znach, int vse){
+            
             ZagruzkaSPIS.Content = String.Format("Идет загрузка списка. {0} из {1} ", znach, vse);
             Progress_ZagruzkaSPIS.Maximum = vse;
             Progress_ZagruzkaSPIS.Value = znach;

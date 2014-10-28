@@ -95,6 +95,12 @@ namespace to_doc
     }
     public class Users
     {
+        public Users() { }
+        public Users(Users U) {
+            this.SID = U.SID;
+            this.CN = U.CN;
+            this.DEPARTMENT = U.DEPARTMENT;
+        }
         public string CN { get; set; }
         public string SID { get; set; }
         public string DEPARTMENT { get; set; }
@@ -180,12 +186,7 @@ namespace to_doc
         public void HTML_to_doc(string FIO, string login, string pass, string SKD, string post, string argv)
         {
 
-            Object oMissing = System.Reflection.Missing.Value;
-            if (word == null) word = new Word.Application();
-            if (wordDoc == null) wordDoc = new Word.Document();
-
-            wordDoc = word.Documents.Add(ref oMissing, ref oMissing, ref oMissing, ref oMissing);
-            word.Visible = true;
+           
             var filepath = File.OpenText("..\\..\\HTMLPage1.html");
             String tesvt = filepath.ReadToEnd();
             String[] tem_z = { "$FIO", "$login", "$pass", "$skd", "$mail" };
@@ -207,7 +208,12 @@ namespace to_doc
                                           ref oMissing, ref oMissing, ref oMissing, ref oMissing,
                                           ref oMissing, ref oMissing, ref oMissing, ref oMissing);*/
             var strtty = Directory.GetCurrentDirectory();
+            Object oMissing = System.Reflection.Missing.Value;
+            if (word == null) word = new Word.Application();
+            //  if (wordDoc == null) wordDoc = new Word.Document();
 
+            // wordDoc = word.Documents.Add(ref oMissing, ref oMissing, ref oMissing, ref oMissing);
+            word.Visible = true;
             wordDoc = word.Documents.Open(strtty + "\\temp.html");
 
             //  File.Delete("temp.html");

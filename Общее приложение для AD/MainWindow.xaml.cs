@@ -37,20 +37,23 @@ namespace Общее_приложение_для_AD
         to_doc.user_card asdf;
         public String file_name;
         int CURRENT = 0, MAXIMUM = 0;
+        void init_DT() {
+            this.DT_hod = new DispatcherTimer(/*DispatcherPriority.Background*/);
+            this.DT_hod.Interval = new TimeSpan(1);
+            this.DT_hod.Tick += DT_hod_Tick;
+        }
         public MainWindow()
         {
             InitializeComponent();
-            this.DT_hod = new DispatcherTimer(DispatcherPriority.Normal);
-            this.DT_hod.Interval = new TimeSpan(1);
-            this.DT_hod.Tick += DT_hod_Tick;
+       
             
           
          //   this.DT_hod.IsEnabled = true;
           // this.Tomer_for_hod = new Timer( new TimerCallback(TTC),);
 
-        /*    this.Tomer_for_hod = new System.Timers.Timer(3);
+            this.Tomer_for_hod = new System.Timers.Timer(3);
             this.Tomer_for_hod.Elapsed += Tomer_for_hod_Elapsed;
-            */
+            
 
 
             this.asdf = new to_doc.user_card();
@@ -81,8 +84,8 @@ namespace Общее_приложение_для_AD
             }
             else
             {
-                this.HOD = new hod_();
-                this.HOD.Show();
+               // this.HOD = new hod_();
+               // this.HOD.Show();
             }
         }
 
@@ -137,36 +140,36 @@ namespace Общее_приложение_для_AD
             this.TH = new Thread(Init_hod_window);
             TH.SetApartmentState ( ApartmentState.STA);        
         }
-
+        List<to_doc.Users> List_USERS_in_gruop;
         /*групы */
         private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            this.HOD = new hod_();
+            this.HOD.Show();
             //this.T_hod = new Thread(MainWindow.Init_hod_window);
 
 
             //this.HOD = new hod_();
 
-
-          //  this.Tomer_for_hod.Start();
-            this.DT_hod.Start();
+           // this.init_DT();
+        //    this.Tomer_for_hod.Start();
+           // this.DT_hod.Start();
             namess.Items.Clear();
 
             var GGL = this.asdf.GetAllDep();
 
             var department = GGL[comboBox1.SelectedIndex];
+            this.List_USERS_in_gruop = new List<to_doc.Users>();
             for (int u = 0; u < this.asdf.UsersOnList.Count; u++)
             {
                 this.CURRENT = u;
                 this.MAXIMUM = this.asdf.UsersOnList.Count;
-               // MessageBox.Show(String.Format("Идет загрузка списка. {0} из {1} ", u, this.asdf.UsersOnList.Count));
-               
-                
-                
                 var USER = this.asdf.UsersOnList[u];
                 if (String.Compare(USER.DEPARTMENT, department) == 0)
-                {
+                {    
+                    this.List_USERS_in_gruop.Add(new to_doc.Users(USER));
                     var user2 = this.asdf.GetUSERbySID(USER.SID);
+
                     namess.Items.Add(user2.FIO + " | " + user2.login);
                 }     
             }
@@ -175,9 +178,12 @@ namespace Общее_приложение_для_AD
                 namess.SelectedIndex = 0;
             }
           //  this.Tomer_for_hod.Stop();
-            this.DT_hod.Stop();
-            this.HOD.Close();
-            this.HOD = null;
+           // this.DT_hod.Stop();
+            if (this.HOD != null)
+            {
+                this.HOD.Close();
+                this.HOD = null;
+            }
            /* var USERs = this.asdf.GetUserList(comboBox1.SelectedIndex);
             if (USERs != null)
             {
@@ -196,11 +202,13 @@ namespace Общее_приложение_для_AD
         {
 
         }
-
+        /*формирование карточки*/
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            var USERs = this.asdf.GetUserList(comboBox1.SelectedIndex);
-            this.asdf.HTML_to_doc(USERs[namess.SelectedIndex].FIO, USERs[namess.SelectedIndex].login, "", "", USERs[namess.SelectedIndex].mail, "");
+
+            var USERs = this.List_USERS_in_gruop[namess.SelectedIndex];
+            var user2 = this.asdf.GetUSERbySID(USERs.SID);
+            this.asdf.HTML_to_doc(user2.FIO, user2.login, "", "", user2.mail, "");
 
         }
         object GetParam(PrincipalContext ctx, string StrokaPodkluch, string poluchaemoe ) {

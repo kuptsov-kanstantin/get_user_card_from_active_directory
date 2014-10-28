@@ -15,6 +15,7 @@ namespace csv_интерпритация
         private class reading_users_from_csv {
             
         }
+        /*перевод из csv в базу данных*/
         void csv_to_DB(string put)
         {
             try
@@ -91,6 +92,7 @@ namespace csv_интерпритация
         Excel.Workbook wb;
         Excel.Application xlApp;
 
+        /*формирование страницы*/
         private Excel.Worksheet ListSheets(/*int id, */Excel.Worksheet WS_exc, rab rabotnici, fam_class BD_f, string kto_podpis)
         {
             int index = 0;
@@ -201,35 +203,10 @@ namespace csv_интерпритация
        
         PrincipalContext ctx;
         GroupPrincipal grp;
-
+        /*типа main))*/
         public void ff_osn()
         {
-            this.ctx = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
-            this.grp = GroupPrincipal.FindByIdentity(this.ctx, IdentityType.SamAccountName, null);
-            var GPr = new GroupPrincipal(this.ctx);
-            var tt = GPr.Members;
-
-            UserPrincipal foundUser = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, "kuptsov");
-            var e = (DirectoryEntry)foundUser.GetUnderlyingObject();
-            String FIO, mail, login;
-            if ((e.Properties["cn"]).Value != null)
-                FIO = (e.Properties["cn"]).Value.ToString();
-            else
-                FIO = "";
-            if ((e.Properties["mail"]).Value != null)
-                mail = (e.Properties["mail"]).Value.ToString();
-            else
-                mail = "";
-            if ((e.Properties["sAMAccountName"]).Value != null)
-
-                login = (e.Properties["sAMAccountName"]).Value.ToString();
-            else
-                login = "";
-            if ((e.Properties["leader"]).Value != null)
-
-                login = (e.Properties["leader"]).Value.ToString();
-            else
-                login = "";
+        
 
 
 
