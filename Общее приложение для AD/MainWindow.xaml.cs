@@ -243,43 +243,22 @@ namespace Общее_приложение_для_AD
                     return (e1.Properties[dan]).Value.ToString();
                 else
                     return "";
-        }
-
-
-
-
-
-
-     
+        }        
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-
-    //  var fdf =      GetADUsers();
-    
-
-
-
-
-            var ctx = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
-            UserPrincipal foundUser = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, "kuptsov");/// поиск пользователя
-            var e1 = (DirectoryEntry)foundUser.GetUnderlyingObject();//получение информации о человеке
-            String FIO, mail, login, department, manager, FIO_n;
-
-            FIO = test_obs(e1, "cn");
-            string sid = test_obs(e1, "objectsid");
-            mail = test_obs(e1, "mail");
-            login = test_obs(e1, "sAMAccountName");
-            department = test_obs(e1, "department");
-
-            if ((e1.Properties["manager"]).Value != null)
+            if (this.file_name != null)
             {
-                manager = (e1.Properties["manager"]).Value.ToString();
-                UserPrincipal foundUser1 = UserPrincipal.FindByIdentity(ctx, manager);
-                var e11 = (DirectoryEntry)foundUser1.GetUnderlyingObject();
-                FIO_n = test_obs(e11, "cn");
+                Thread TH = new Thread(to_excel_thread);
+                TH.SetApartmentState(ApartmentState.STA);
+                TH.Start(null);
             }
-            else
-                manager = "";
+        }
+        public csv_интерпритация.Excel_work EX;
+        private void to_excel_thread(object obj)
+        {
+            this.EX = new csv_интерпритация.Excel_work();
+            this.EX.csv_to_DB(this.file_name);
+            //throw new NotImplementedException();
         }
 
         private void image1_ImageFailed(object sender, ExceptionRoutedEventArgs e)

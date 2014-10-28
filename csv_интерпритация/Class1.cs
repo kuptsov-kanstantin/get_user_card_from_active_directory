@@ -11,16 +11,19 @@ namespace csv_интерпритация
 {
     public class Excel_work
     {
-       public BD_class BD_c;
-        private class reading_users_from_csv {
-            
+        public BD_class BD_c;
+        private class reading_users_from_csv
+        {
+
         }
         /*перевод из csv в базу данных*/
-        void csv_to_DB(string put)
+        public void csv_to_DB(string put)
         {
             try
             {
-                String values = File.ReadAllText(put);
+                this.BD_c = new BD_class();
+                var VAL = File.ReadAllBytes(put);
+                String values = File.ReadAllText(put, System.Text.Encoding.Default);
                 var ad = values.Split('\r', '\n');
                 Array.Sort(ad);
                 int fd = 0;
@@ -76,7 +79,7 @@ namespace csv_интерпритация
                     }
                 }
                 this.BD_c.update();
-               //  this.update_list();
+                //  this.update_list();
 
                 //  var sd = new wpf_подсчет_excel.CreateExcelWorksheet();
                 //   sd.CreateExcelWorksheet1();
@@ -191,7 +194,7 @@ namespace csv_интерпритация
 
             if (rabotnici != null)
             {
-               // WS_exc.Name = Window1.for_initials_n(rabotnici);//<<< Переименование листа!!!!! <<<<<<< 
+                // WS_exc.Name = Window1.for_initials_n(rabotnici);//<<< Переименование листа!!!!! <<<<<<< 
             }
             else
             {
@@ -200,13 +203,13 @@ namespace csv_интерпритация
 
             return WS_exc;
         }
-       
+
         PrincipalContext ctx;
         GroupPrincipal grp;
         /*типа main))*/
         public void ff_osn()
         {
-        
+
 
 
 
