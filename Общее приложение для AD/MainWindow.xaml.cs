@@ -17,6 +17,8 @@ using System.DirectoryServices.AccountManagement;
 using System.DirectoryServices;
 using Microsoft.Win32;
 using System.Security.Principal;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Общее_приложение_для_AD
 {
@@ -27,11 +29,30 @@ namespace Общее_приложение_для_AD
     /// </summary>
     public partial class MainWindow : Window
     {
+        System.Timers.Timer Tomer_for_hod;
+        DispatcherTimer DT_hod;
+        hod_ HOD;
+        Thread T_hod;
+         
         to_doc.user_card asdf;
         public String file_name;
+        int CURRENT = 0, MAXIMUM = 0;
         public MainWindow()
         {
             InitializeComponent();
+            this.DT_hod = new DispatcherTimer(DispatcherPriority.Normal);
+            this.DT_hod.Interval = new TimeSpan(1);
+            this.DT_hod.Tick += DT_hod_Tick;
+            
+          
+         //   this.DT_hod.IsEnabled = true;
+          // this.Tomer_for_hod = new Timer( new TimerCallback(TTC),);
+
+        /*    this.Tomer_for_hod = new System.Timers.Timer(3);
+            this.Tomer_for_hod.Elapsed += Tomer_for_hod_Elapsed;
+            */
+
+
             this.asdf = new to_doc.user_card();
             if (this.asdf.ctx == null) {
                 MessageBox.Show("Нет доступа к домену!!!");
@@ -52,6 +73,44 @@ namespace Общее_приложение_для_AD
             }
         }
 
+        void Tomer_for_hod_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (this.HOD != null)
+            {
+                this.HOD.Setup_param(this.CURRENT, this.MAXIMUM);
+            }
+            else
+            {
+                this.HOD = new hod_();
+                this.HOD.Show();
+            }
+        }
+
+        private void TTC(object state)
+        {
+            if (this.HOD != null)
+            {
+                this.HOD.Setup_param(this.CURRENT, this.MAXIMUM);
+            }
+            else
+            {
+                this.HOD = new hod_();
+                this.HOD.Show();
+            }
+        }
+
+        void DT_hod_Tick(object sender, EventArgs e)
+        {
+            if (this.HOD != null)
+            {
+                this.HOD.Setup_param(this.CURRENT, this.MAXIMUM);
+            }
+            else {
+                this.HOD = new hod_();
+                this.HOD.Show();
+            }
+        }
+
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
@@ -67,9 +126,30 @@ namespace Общее_приложение_для_AD
             }
 
         }
+        static void Init_hod_window(){
+            var HOD = new hod_();
+            HOD.Show();
+
+
+        }
+        Thread TH;
+        void INIT_HOD() {
+            this.TH = new Thread(Init_hod_window);
+            TH.SetApartmentState ( ApartmentState.STA);        
+        }
+
         /*групы */
         private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
+            //this.T_hod = new Thread(MainWindow.Init_hod_window);
+
+
+            //this.HOD = new hod_();
+
+
+          //  this.Tomer_for_hod.Start();
+            this.DT_hod.Start();
             namess.Items.Clear();
 
             var GGL = this.asdf.GetAllDep();
@@ -77,7 +157,12 @@ namespace Общее_приложение_для_AD
             var department = GGL[comboBox1.SelectedIndex];
             for (int u = 0; u < this.asdf.UsersOnList.Count; u++)
             {
-                MessageBox.Show(String.Format("Идет загрузка списка. {0} из {1} ", u, this.asdf.UsersOnList.Count));
+                this.CURRENT = u;
+                this.MAXIMUM = this.asdf.UsersOnList.Count;
+               // MessageBox.Show(String.Format("Идет загрузка списка. {0} из {1} ", u, this.asdf.UsersOnList.Count));
+               
+                
+                
                 var USER = this.asdf.UsersOnList[u];
                 if (String.Compare(USER.DEPARTMENT, department) == 0)
                 {
@@ -89,8 +174,10 @@ namespace Общее_приложение_для_AD
             {
                 namess.SelectedIndex = 0;
             }
-
-
+          //  this.Tomer_for_hod.Stop();
+            this.DT_hod.Stop();
+            this.HOD.Close();
+            this.HOD = null;
            /* var USERs = this.asdf.GetUserList(comboBox1.SelectedIndex);
             if (USERs != null)
             {
