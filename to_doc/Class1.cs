@@ -260,8 +260,6 @@ namespace to_doc
         GroupPrincipal grp;
         List<String> gruops;
         List<NAME_id> users;
-
-
         /*инициализация связи с доменом*/
         public void init()
         {
@@ -278,13 +276,15 @@ namespace to_doc
         /**/
         string test_obs(DirectoryEntry e1, string dan)
         {
-
             if ((e1.Properties[dan]).Value != null)
                 return (e1.Properties[dan]).Value.ToString();
             else
                 return "";
         }
-
+        void funct() {
+            DirectorySearcher d = new DirectorySearcher(somevalue);
+            d.Filter = string.Format("(&(objectCategory=person)(objectClass=user)(givenname={0})(sn={1}))", firstname, lastname);
+        }
         /*Получение списка пользователей из группы*/
         public List<NAME_id> GetUserList(int grups_id)
         {
@@ -305,9 +305,7 @@ namespace to_doc
                             test_obs(e, "sAMAccountName"),
                             test_obs(e, "cn"),
                             test_obs(e, "mail"), 
-                            test_obs(e, "manager")
-                            )
-                            );
+                            test_obs(e, "manager")));
                 }
             }
             return this.users;
@@ -330,38 +328,15 @@ namespace to_doc
             UserPrincipal foundUser = UserPrincipal.FindByIdentity(ctx, IdentityType.Sid, SID);/// поиск пользователя
             var e1 = (DirectoryEntry)foundUser.GetUnderlyingObject();//получение информации о человеке
             String FIO, mail, login, department, manager, FIO_n;
-
-
-       /*     var USER = new NAME_id(test_obs(e1, "sAMAccountName"), test_obs(e1, "cn"), test_obs(e1, "mail"), 
-                
-                );*/
-
-
-
-
-            /*
-            FIO = test_obs(e1, "cn");
-            string sid = test_obs(e1, "objectsid");
-            mail = test_obs(e1, "mail");
-            login = test_obs(e1, "sAMAccountName");
-            department = test_obs(e1, "department");
-            */
             if ((e1.Properties["manager"]).Value != null)
             {
-
-
                 manager = (e1.Properties["manager"]).Value.ToString();
                 UserPrincipal foundUser1 = UserPrincipal.FindByIdentity(ctx, manager);
                 var e11 = (DirectoryEntry)foundUser1.GetUnderlyingObject();
                 FIO_n = test_obs(e11, "cn");
-
                 return new NAME_id(test_obs(e1, "sAMAccountName"), test_obs(e1, "cn"), test_obs(e1, "mail"), FIO_n);
-
-            }
-            else
-            {
+            }else{
                 return new NAME_id(test_obs(e1, "sAMAccountName"), test_obs(e1, "cn"), test_obs(e1, "mail"), "----");
-
             }
 
             
