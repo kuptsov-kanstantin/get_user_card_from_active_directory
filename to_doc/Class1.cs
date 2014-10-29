@@ -282,12 +282,17 @@ namespace to_doc
                 return "";
         }
         void funct(string firstname, string lastname) {
-            string DomainPath = GetDomainFullName(Environment.UserDomainName);
+            string DomainPath = to_doc.user_card.GetDomainFullName(Environment.UserDomainName);
             DirectoryEntry searchRoot = new DirectoryEntry("LDAP://" + DomainPath);
             DirectorySearcher d = new DirectorySearcher(searchRoot);
             d.Filter = string.Format("(&(objectCategory=person)(objectClass=user)(givenname={0})(sn={1}))", firstname, lastname);
-               
-        
+            d.PropertiesToLoad.Add("name");
+            d.PropertiesToLoad.Add("cn");
+            d.PropertiesToLoad.Add("sn");
+            d.PropertiesToLoad.Add("manager");
+            var result = d.FindAll();
+
+
 
         }
         /*Получение списка пользователей из группы*/
@@ -312,7 +317,7 @@ namespace to_doc
             }
             return this.users;
         }
-        private string GetDomainFullName(string friendlyName)
+        public static string GetDomainFullName(string friendlyName)
         {
             DirectoryContext context = new DirectoryContext(DirectoryContextType.Domain, friendlyName);
             Domain domain = Domain.GetDomain(context);

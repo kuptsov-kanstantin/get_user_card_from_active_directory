@@ -243,9 +243,27 @@ namespace Общее_приложение_для_AD
                     return (e1.Properties[dan]).Value.ToString();
                 else
                     return "";
-        }        
+        }
+        void funct2(string firstname, string lastname)
+        {
+            string DomainPath = to_doc.user_card.GetDomainFullName(Environment.UserDomainName);
+            DirectoryEntry searchRoot = new DirectoryEntry("LDAP://" + DomainPath);
+            DirectorySearcher d = new DirectorySearcher(searchRoot);
+            d.Filter = string.Format("(&(objectCategory=person)(objectClass=user)(givenname={0})(sn={1}))", firstname, lastname);
+            d.PropertiesToLoad.Add("name");
+            d.PropertiesToLoad.Add("cn");
+            d.PropertiesToLoad.Add("sn");
+            d.PropertiesToLoad.Add("manager");
+            var result  = d.FindAll();
+            
+
+        }
         private void button3_Click(object sender, RoutedEventArgs e)
         {
+            funct2("Денис","Купцов");
+    
+
+
             if (this.file_name != null)
             {
                 Thread TH = new Thread(to_excel_thread);
