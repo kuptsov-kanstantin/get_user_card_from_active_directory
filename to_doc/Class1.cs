@@ -281,9 +281,14 @@ namespace to_doc
             else
                 return "";
         }
-        void funct() {
-            DirectorySearcher d = new DirectorySearcher(somevalue);
+        void funct(string firstname, string lastname) {
+            string DomainPath = GetDomainFullName(Environment.UserDomainName);
+            DirectoryEntry searchRoot = new DirectoryEntry("LDAP://" + DomainPath);
+            DirectorySearcher d = new DirectorySearcher(searchRoot);
             d.Filter = string.Format("(&(objectCategory=person)(objectClass=user)(givenname={0})(sn={1}))", firstname, lastname);
+               
+        
+
         }
         /*Получение списка пользователей из группы*/
         public List<NAME_id> GetUserList(int grups_id)
@@ -293,10 +298,7 @@ namespace to_doc
             this.users = new List<NAME_id>();
             if (grp != null)
             {
-                int gg = 0;
                 var tt = grp.GetMembers(true);
-                this.grp.GetUnderlyingObject();
-                var f = grp.Members;
                 foreach (Principal p in tt)
                 {
                     var e = (DirectoryEntry)p.GetUnderlyingObject();                 
