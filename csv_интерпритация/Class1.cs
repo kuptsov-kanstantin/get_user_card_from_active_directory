@@ -218,6 +218,19 @@ namespace csv_интерпритация
             wb = this.xlApp.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
 
 
+
+
+
+            for (int i = 0; i < this.BD_c.list_of_users.Count;i++ )
+            {
+                var familia_imya = this.BD_c.list_of_users[i].familia;
+                var familia_imya_list = familia_imya.Split(' ');
+
+
+
+            }
+
+
 /*
             
 

@@ -112,6 +112,11 @@ namespace to_doc
         public string FIO;
         public string mail;
         public string nach_of_depart;
+        //-------------
+        public string name;
+        public string family;
+        public string oth;
+
         public NAME_id() { }
         public NAME_id(string login, string FIO, string mail, string nach_of_depart)
         {
@@ -120,6 +125,15 @@ namespace to_doc
             this.mail = mail;
             this.nach_of_depart = nach_of_depart;
         }
+        public NAME_id(string name, string family, string oth, string nach_of_depart)
+        {
+            this.name = name;
+            this.family = family;
+            this.oth = oth;
+            this.nach_of_depart = nach_of_depart;
+        }
+
+
         ~NAME_id() { }
     }
 
@@ -184,45 +198,21 @@ namespace to_doc
         static Word.Application word;
         static Word.Document wordDoc;
         public void HTML_to_doc(string FIO, string login, string pass, string SKD, string post, string argv)
-        {
-
-           
+        {           
             var filepath = File.OpenText("..\\..\\HTMLPage1.html");
             String tesvt = filepath.ReadToEnd();
             String[] tem_z = { "$FIO", "$login", "$pass", "$skd", "$mail" };
-
             tesvt = tesvt.Replace(tem_z[0], FIO);
             tesvt = tesvt.Replace(tem_z[1], login);
             tesvt = tesvt.Replace(tem_z[2], pass);
             tesvt = tesvt.Replace(tem_z[3], SKD);
             tesvt = tesvt.Replace(tem_z[4], post);
-
             File.WriteAllText("temp.html", tesvt);
-            //    Object confirmconversion = System.Reflection.Missing.Value;
-            //   Object readOnly = false;
-            //Object saveto = "c:\\doc.pdf";
-            //Object oallowsubstitution = System.Reflection.Missing.Value;
-
-            /*wordDoc = word.Documents.Open(ref filepath, ref confirmconversion, ref readOnly, ref oMissing,
-                                          ref oMissing, ref oMissing, ref oMissing, ref oMissing,
-                                          ref oMissing, ref oMissing, ref oMissing, ref oMissing,
-                                          ref oMissing, ref oMissing, ref oMissing, ref oMissing);*/
             var strtty = Directory.GetCurrentDirectory();
             Object oMissing = System.Reflection.Missing.Value;
             if (word == null) word = new Word.Application();
-            //  if (wordDoc == null) wordDoc = new Word.Document();
-
-            // wordDoc = word.Documents.Add(ref oMissing, ref oMissing, ref oMissing, ref oMissing);
             word.Visible = true;
             wordDoc = word.Documents.Open(strtty + "\\temp.html");
-
-            //  File.Delete("temp.html");
-            /* object fileFormat = Word.WdSaveFormat.wdFormatPDF;
-             wordDoc.SaveAs(ref saveto, ref fileFormat, ref oMissing, ref oMissing, ref oMissing,
-                            ref oMissing, ref oMissing, ref oMissing, ref oMissing, ref oMissing,
-                            ref oMissing, ref oMissing, ref oMissing, ref oallowsubstitution, ref oMissing,
-                            ref oMissing);*/
-
         }
         static void button1_Click(string FIO, string login, string pass, string SKD, string post)
         {
@@ -281,20 +271,59 @@ namespace to_doc
             else
                 return "";
         }
-        void funct(string firstname, string lastname) {
+        
+        public static void get_ima_fam(string firstname, string lastname)
+        {
             string DomainPath = to_doc.user_card.GetDomainFullName(Environment.UserDomainName);
             DirectoryEntry searchRoot = new DirectoryEntry("LDAP://" + DomainPath);
             DirectorySearcher d = new DirectorySearcher(searchRoot);
             d.Filter = string.Format("(&(objectCategory=person)(objectClass=user)(givenname={0})(sn={1}))", firstname, lastname);
-            d.PropertiesToLoad.Add("name");
+            d.PropertiesToLoad.Add("givenname");//имя
             d.PropertiesToLoad.Add("cn");
-            d.PropertiesToLoad.Add("sn");
-            d.PropertiesToLoad.Add("manager");
-            var result = d.FindAll();
+            d.PropertiesToLoad.Add("sn");//фамилия
+            d.PropertiesToLoad.Add("initials");// наверно отчество            
+            d.PropertiesToLoad.Add("manager");//начальник
+            var resultCol = d.FindAll();
+            SearchResult result;
+            if (resultCol != null)
+            {
+                for (int counter = 0; counter < resultCol.Count; counter++)
+                {
+                    string UserNameEmailString = string.Empty;
+                    result = resultCol[counter];
+                    if (result != null)
+                    {
+
+                        if (result.Properties.Contains("department") == true)
+                        {
+                            US.DEPARTMENT = (String)result.Properties["department"][0];
+                        }
+                        else
+                        {
+                            US.DEPARTMENT = "";
+                        }
 
 
 
+                        if ((e1.Properties["manager"]).Value != null)
+                        {
+                            manager = (e1.Properties["manager"]).Value.ToString();
+                            UserPrincipal foundUser1 = UserPrincipal.FindByIdentity(ctx, manager);
+                            var e11 = (DirectoryEntry)foundUser1.GetUnderlyingObject();
+                            FIO_n = test_obs(e11, "cn");
+                            return new NAME_id(test_obs(e1, "sAMAccountName"), test_obs(e1, "cn"), test_obs(e1, "mail"), FIO_n);
+                        }
+                        else
+                        {
+                            return new NAME_id(test_obs(e1, "sAMAccountName"), test_obs(e1, "cn"), test_obs(e1, "mail"), "----");
+                        }
+                    }
+                }
+            }
         }
+
+
+                        
         /*Получение списка пользователей из группы*/
         public List<NAME_id> GetUserList(int grups_id)
         {
