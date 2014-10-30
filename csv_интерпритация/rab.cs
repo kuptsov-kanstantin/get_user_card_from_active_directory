@@ -101,7 +101,7 @@ namespace csv_интерпритация
     public class fam_class
     {
         public String familia;
-        Data_time_class D_T;
+        private Data_time_class D_T;
         public List<Data_time_class> data_lists;
         public fam_class(){   }
         //новый человек. сохраняет фамилию и инициализирует время и дату.

@@ -94,24 +94,43 @@ namespace csv_интерпритация
 
         Excel.Workbook wb;
         Excel.Application xlApp;
+        private string for_initials(String NAME, String FAM, String OTH)
+        {
+            if (NAME != null)
+            {
+                if (FAM != null)
+                {
+                    if (OTH != null)
+                    {
+                        return NAME[0] + ". " + OTH[0] + ". " + FAM;
+                    }
+                    else
+                    {
+                        return NAME[0] + ". " + FAM;
 
+                    }
+                }
+            }
+            return null;
+        }
         /*формирование страницы*/
-        private Excel.Worksheet ListSheets(/*int id, */Excel.Worksheet WS_exc, rab rabotnici, fam_class BD_f, string kto_podpis)
+        private Excel.Worksheet ListSheets(/*int id, */Excel.Worksheet WS_exc, fam_class DATA, to_doc.NAME_id USER_info)
         {
             int index = 0;
             //    String Famil = "", ima = "", otchestvo = "";
             String DAY_to_BEGIN = "06:00:00", FIO;
-            if (rabotnici != null)
+            if (USER_info != null)
             {
                 /* Famil = rabotnici.Familia;
                  ima = rabotnici.name + ". ";
                  otchestvo = rabotnici.otchestvo + ". ";*/
                 FIO = null /*Window1.for_initials(rabotnici)*/;
-                DAY_to_BEGIN = rabotnici.DT_rabochi_den.hour + ":" + rabotnici.DT_rabochi_den.minute + ":" + rabotnici.DT_rabochi_den.second;
+                //DAY_to_BEGIN = rabotnici.DT_rabochi_den.hour + ":" + rabotnici.DT_rabochi_den.minute + ":" + rabotnici.DT_rabochi_den.second;
+                DAY_to_BEGIN = "6:00:00";
             }
             else
             {
-                FIO = BD_f.familia;
+                FIO = DATA.familia;
             }
             WS_exc.get_Range(String.Format("A1"), Type.Missing).EntireColumn.ColumnWidth = 15;
             WS_exc.get_Range(String.Format("B1"), Type.Missing).EntireColumn.ColumnWidth = 15;
@@ -144,10 +163,10 @@ namespace csv_интерпритация
             WS_exc.get_Range("D5", Type.Missing).VerticalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
             WS_exc.get_Range("D5", Type.Missing).WrapText = true;
             double per_dt = 0;
-            var count_bd = BD_f.data_lists.Count;
+            var count_bd = DATA.data_lists.Count;
             for (int data = 0; data < count_bd; data++)
             {
-                var perem = BD_f.data_lists[data];
+                var perem = DATA.data_lists[data];
                 if (perem.data != null)
                 {
                     //DATA_otch = perem.data;
@@ -198,7 +217,7 @@ namespace csv_интерпритация
             }
             else
             {
-                WS_exc.Name = BD_f.familia;
+                WS_exc.Name = DATA.familia;
             }
 
             return WS_exc;
@@ -221,13 +240,16 @@ namespace csv_интерпритация
 
 
 
-            for (int i = 0; i < this.BD_c.list_of_users.Count;i++ )
+            for (int i = 0; i < this.BD_c.list_of_users.Count; i++)
             {
-                var familia_imya = this.BD_c.list_of_users[i].familia;
-                var familia_imya_list = familia_imya.Split(' ');
-
-
-
+                var USER__ = this.BD_c.list_of_users[i];
+                var familia_imya = USER__.familia;
+                var rez = to_doc.user_card.get_ima_fam(
+                    to_doc.NAME_id.return_fam_name_otch(0, familia_imya), 
+                    to_doc.NAME_id.return_fam_name_otch(1, familia_imya)
+                    );
+                var ws_n = (Excel.Worksheet)this.xlApp.Worksheets.Add();
+                ws_n = this.ListSheets(ws_n, USER__, rez);
             }
 
 

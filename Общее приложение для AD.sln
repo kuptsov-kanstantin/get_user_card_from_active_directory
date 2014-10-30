@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "to_doc", "to_doc\to_doc.csproj", "{120A046C-3282-4215-98B9-57FE94BBF4D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csv_интерпритация", "csv_интерпритация\csv_интерпритация.csproj", "{7AEA8E35-CB50-44A4-9AD3-7EFB98EABFAD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{120A046C-3282-4215-98B9-57FE94BBF4D3} = {120A046C-3282-4215-98B9-57FE94BBF4D3}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

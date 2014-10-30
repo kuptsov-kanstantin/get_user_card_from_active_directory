@@ -130,7 +130,7 @@ namespace to_doc
             this.mail = mail;
             this.nach_of_depart = nach_of_depart;
         }
-        private string return_fam_name_otch(int chito, string stroka)
+        public static string return_fam_name_otch(int chito, string stroka)
         {
             //stroka = stroka + " ";
             var str = stroka.Split(' ');
@@ -341,13 +341,14 @@ namespace to_doc
                         }
                         else
                         {
-                            return new NAME_id(test_obs(e1, "sAMAccountName"), test_obs(e1, "cn"), test_obs(e1, "mail"), "----");
+                            return new NAME_id(FIO, "-- -- --");
 
                         }
 
                     }
                 }
             }
+            return null;
         }
 
 
