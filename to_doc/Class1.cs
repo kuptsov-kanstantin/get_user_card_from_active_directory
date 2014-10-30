@@ -132,16 +132,26 @@ namespace to_doc
         }
         public static string return_fam_name_otch(int chito, string stroka)
         {
-            //stroka = stroka + " ";
-            var str = stroka.Split(' ');
-            if (str.Count() >= chito)
+            if (stroka != null)
             {
-                return str[chito];
+                if (String.Compare(stroka, "") != 0)
+                {
+                    if (String.Compare(stroka, " ") != 0)
+                    {
+                        //stroka = stroka + " ";
+                        var str = stroka.Split(' ');
+                        if (str.Count() > chito)
+                        {
+                            return str[chito];
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                }
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public NAME_id(string FIO, string nach_of_depart)
@@ -297,54 +307,59 @@ namespace to_doc
 
         public static NAME_id get_ima_fam(string firstname, string lastname)
         {
-  
-            string DomainPath = to_doc.user_card.GetDomainFullName(Environment.UserDomainName);
-            DirectoryEntry searchRoot = new DirectoryEntry("LDAP://" + DomainPath);
-            DirectorySearcher d = new DirectorySearcher(searchRoot);
-            d.Filter = string.Format("(&(objectCategory=person)(objectClass=user)(givenname={0})(sn={1}))", firstname, lastname);
-         /*   d.PropertiesToLoad.Add("givenname");//имя
-            d.PropertiesToLoad.Add("cn");
-            d.PropertiesToLoad.Add("sn");//фамилия
-            d.PropertiesToLoad.Add("initials");// наверно отчество    */
-            d.PropertiesToLoad.Add("name");
-            d.PropertiesToLoad.Add("manager");//начальник
-            var resultCol = d.FindAll();
-            SearchResult result;
-            if (resultCol != null)
+            if (firstname != null)
             {
-                for (int counter = 0; counter < resultCol.Count; counter++)
+                if (lastname != null)
                 {
-                    string UserNameEmailString = string.Empty;
-                    result = resultCol[counter];
-                    if (result != null)
+                    string DomainPath = to_doc.user_card.GetDomainFullName(Environment.UserDomainName);
+                    DirectoryEntry searchRoot = new DirectoryEntry("LDAP://" + DomainPath);
+                    DirectorySearcher d = new DirectorySearcher(searchRoot);
+                    d.Filter = string.Format("(&(objectCategory=person)(objectClass=user)(givenname={0})(sn={1}))", firstname, lastname);
+                    /*   d.PropertiesToLoad.Add("givenname");//имя
+                       d.PropertiesToLoad.Add("cn");
+                       d.PropertiesToLoad.Add("sn");//фамилия
+                       d.PropertiesToLoad.Add("initials");// наверно отчество    */
+                    d.PropertiesToLoad.Add("name");
+                    d.PropertiesToLoad.Add("manager");//начальник
+                    var resultCol = d.FindAll();
+                    SearchResult result;
+                    if (resultCol != null)
                     {
-                        string FIO = null;
-
-                        if (result.Properties.Contains("name") == true)
+                        for (int counter = 0; counter < resultCol.Count; counter++)
                         {
-                            FIO = (String)result.Properties["name"][0];
+                            string UserNameEmailString = string.Empty;
+                            result = resultCol[counter];
+                            if (result != null)
+                            {
+                                string FIO = null;
+
+                                if (result.Properties.Contains("name") == true)
+                                {
+                                    FIO = (String)result.Properties["name"][0];
+                                }
+                                else
+                                {
+                                    FIO = "";
+                                }
+
+
+                                if (result.Properties.Contains("manager") == true)
+                                {
+                                    var manager = (String)result.Properties["manager"][0];
+                                    UserPrincipal foundUser1 = UserPrincipal.FindByIdentity(new PrincipalContext(ContextType.Domain, Environment.UserDomainName), manager);
+                                    var e11 = (DirectoryEntry)foundUser1.GetUnderlyingObject();
+                                    var FIO_n = user_card.test_obs(e11, "cn");
+                                    return new NAME_id(FIO, FIO_n);
+
+                                }
+                                else
+                                {
+                                    return new NAME_id(FIO, "-- -- --");
+
+                                }
+
+                            }
                         }
-                        else
-                        {
-                            FIO = "";
-                        }
-
-
-                        if (result.Properties.Contains("manager") == true)
-                        {
-                            var manager = (String)result.Properties["manager"][0];
-                            UserPrincipal foundUser1 = UserPrincipal.FindByIdentity(new PrincipalContext(ContextType.Domain, Environment.UserDomainName), manager);
-                            var e11 = (DirectoryEntry)foundUser1.GetUnderlyingObject();
-                            var FIO_n = user_card.test_obs(e11, "cn");
-                            return new NAME_id(FIO, FIO_n);
-
-                        }
-                        else
-                        {
-                            return new NAME_id(FIO, "-- -- --");
-
-                        }
-
                     }
                 }
             }

@@ -113,6 +113,25 @@ namespace csv_интерпритация
             }
             return null;
         }
+        private string for_initials_n(String NAME, String FAM, String OTH)
+        {
+            if (NAME != null)
+            {
+                if (FAM != null)
+                {
+                    if (OTH != null)
+                    {
+                        return FAM+" "+ NAME[0] + ". " + OTH[0] + ". ";
+                    }
+                    else
+                    {
+                        return FAM + " "+ NAME[0] + ". " ;
+
+                    }
+                }
+            }
+            return null;
+        }
         /*формирование страницы*/
         private Excel.Worksheet ListSheets(/*int id, */Excel.Worksheet WS_exc, fam_class DATA, to_doc.NAME_id USER_info)
         {
@@ -198,10 +217,9 @@ namespace csv_интерпритация
 
             WS_exc.get_Range(String.Format("B{0}", count_bd + 5 + 8), Type.Missing).Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
             WS_exc.get_Range(String.Format("B{0}", count_bd + 5 + 8), Type.Missing).Font.Bold = true;
-            if (rabotnici != null)
+            if (USER_info != null)
             {// 21 или 23 или 4 
-
-                WS_exc.get_Range(String.Format("C{0}", count_bd + 5 + 8), Type.Missing).FormulaLocal = String.Format("{0}", kto_podpis);
+                WS_exc.get_Range(String.Format("C{0}", count_bd + 5 + 8), Type.Missing).FormulaLocal = String.Format("{0}", for_initials(USER_info.nach_of_depart_name, USER_info.nach_of_depart_family, USER_info.nach_of_depart_oth));
                 WS_exc.get_Range(String.Format("C{0}", count_bd + 5 + 8), Type.Missing).Font.Bold = true;
             }
             else
@@ -211,13 +229,20 @@ namespace csv_интерпритация
             }
             //=ЕСЛИ(A1<>"";A1;"Сотрудник")
 
-            if (rabotnici != null)
+            if (USER_info != null)
             {
                 // WS_exc.Name = Window1.for_initials_n(rabotnici);//<<< Переименование листа!!!!! <<<<<<< 
             }
             else
             {
-                WS_exc.Name = DATA.familia;
+                try
+                {
+                    WS_exc.Name = DATA.familia;
+                }
+                catch (Exception E)
+                {
+
+                }
             }
 
             return WS_exc;
@@ -244,14 +269,13 @@ namespace csv_интерпритация
             {
                 var USER__ = this.BD_c.list_of_users[i];
                 var familia_imya = USER__.familia;
-                var rez = to_doc.user_card.get_ima_fam(
-                    to_doc.NAME_id.return_fam_name_otch(0, familia_imya), 
-                    to_doc.NAME_id.return_fam_name_otch(1, familia_imya)
-                    );
+                var two  = to_doc.NAME_id.return_fam_name_otch(0, familia_imya);
+                var one = to_doc.NAME_id.return_fam_name_otch(1, familia_imya);
+                var rez = to_doc.user_card.get_ima_fam(one, two);
                 var ws_n = (Excel.Worksheet)this.xlApp.Worksheets.Add();
                 ws_n = this.ListSheets(ws_n, USER__, rez);
             }
-
+            this.xlApp.Visible = true;//// делает видимым окно экселя...   */
 
 /*
             
