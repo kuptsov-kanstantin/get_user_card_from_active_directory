@@ -111,11 +111,16 @@ namespace to_doc
         public string login;
         public string FIO;
         public string mail;
-        public string nach_of_depart;
+        public string nach_of_depart;//простое
+
         //-------------
         public string name;
         public string family;
         public string oth;
+        //усложненное
+        public string nach_of_depart_name;
+        public string nach_of_depart_family;
+        public string nach_of_depart_oth;
 
         public NAME_id() { }
         public NAME_id(string login, string FIO, string mail, string nach_of_depart)
@@ -125,12 +130,30 @@ namespace to_doc
             this.mail = mail;
             this.nach_of_depart = nach_of_depart;
         }
-        public NAME_id(string name, string family, string oth, string nach_of_depart)
+        private string return_fam_name_otch(int chito, string stroka)
         {
-            this.name = name;
-            this.family = family;
-            this.oth = oth;
-            this.nach_of_depart = nach_of_depart;
+            //stroka = stroka + " ";
+            var str = stroka.Split(' ');
+            if (str.Count() >= chito)
+            {
+                return str[chito];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public NAME_id(string FIO, string nach_of_depart)
+        {
+            this.family = return_fam_name_otch(0, FIO);
+            this.name = return_fam_name_otch(1, FIO);
+            this.oth = return_fam_name_otch(2, FIO);
+
+            this.nach_of_depart_family = return_fam_name_otch(0, nach_of_depart);
+            this.nach_of_depart_name = return_fam_name_otch(1, nach_of_depart);
+            this.nach_of_depart_oth = return_fam_name_otch(2, nach_of_depart);
+
         }
 
 
@@ -264,24 +287,26 @@ namespace to_doc
         }
 
         /**/
-        string test_obs(DirectoryEntry e1, string dan)
+        public static string test_obs(DirectoryEntry e1, string dan)
         {
             if ((e1.Properties[dan]).Value != null)
                 return (e1.Properties[dan]).Value.ToString();
             else
                 return "";
         }
-        
-        public static void get_ima_fam(string firstname, string lastname)
+
+        public static NAME_id get_ima_fam(string firstname, string lastname)
         {
+  
             string DomainPath = to_doc.user_card.GetDomainFullName(Environment.UserDomainName);
             DirectoryEntry searchRoot = new DirectoryEntry("LDAP://" + DomainPath);
             DirectorySearcher d = new DirectorySearcher(searchRoot);
             d.Filter = string.Format("(&(objectCategory=person)(objectClass=user)(givenname={0})(sn={1}))", firstname, lastname);
-            d.PropertiesToLoad.Add("givenname");//имя
+         /*   d.PropertiesToLoad.Add("givenname");//имя
             d.PropertiesToLoad.Add("cn");
             d.PropertiesToLoad.Add("sn");//фамилия
-            d.PropertiesToLoad.Add("initials");// наверно отчество            
+            d.PropertiesToLoad.Add("initials");// наверно отчество    */
+            d.PropertiesToLoad.Add("name");
             d.PropertiesToLoad.Add("manager");//начальник
             var resultCol = d.FindAll();
             SearchResult result;
@@ -293,30 +318,33 @@ namespace to_doc
                     result = resultCol[counter];
                     if (result != null)
                     {
+                        string FIO = null;
 
-                        if (result.Properties.Contains("department") == true)
+                        if (result.Properties.Contains("name") == true)
                         {
-                            US.DEPARTMENT = (String)result.Properties["department"][0];
+                            FIO = (String)result.Properties["name"][0];
                         }
                         else
                         {
-                            US.DEPARTMENT = "";
+                            FIO = "";
                         }
 
 
-
-                        if ((e1.Properties["manager"]).Value != null)
+                        if (result.Properties.Contains("manager") == true)
                         {
-                            manager = (e1.Properties["manager"]).Value.ToString();
-                            UserPrincipal foundUser1 = UserPrincipal.FindByIdentity(ctx, manager);
+                            var manager = (String)result.Properties["manager"][0];
+                            UserPrincipal foundUser1 = UserPrincipal.FindByIdentity(new PrincipalContext(ContextType.Domain, Environment.UserDomainName), manager);
                             var e11 = (DirectoryEntry)foundUser1.GetUnderlyingObject();
-                            FIO_n = test_obs(e11, "cn");
-                            return new NAME_id(test_obs(e1, "sAMAccountName"), test_obs(e1, "cn"), test_obs(e1, "mail"), FIO_n);
+                            var FIO_n = user_card.test_obs(e11, "cn");
+                            return new NAME_id(FIO, FIO_n);
+
                         }
                         else
                         {
                             return new NAME_id(test_obs(e1, "sAMAccountName"), test_obs(e1, "cn"), test_obs(e1, "mail"), "----");
+
                         }
+
                     }
                 }
             }
