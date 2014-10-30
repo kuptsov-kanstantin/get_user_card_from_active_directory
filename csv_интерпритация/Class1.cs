@@ -143,7 +143,7 @@ namespace csv_интерпритация
                 /* Famil = rabotnici.Familia;
                  ima = rabotnici.name + ". ";
                  otchestvo = rabotnici.otchestvo + ". ";*/
-                FIO = null /*Window1.for_initials(rabotnici)*/;
+                FIO = for_initials(USER_info.name, USER_info.family, USER_info.oth);
                 //DAY_to_BEGIN = rabotnici.DT_rabochi_den.hour + ":" + rabotnici.DT_rabochi_den.minute + ":" + rabotnici.DT_rabochi_den.second;
                 DAY_to_BEGIN = "6:00:00";
             }
@@ -229,21 +229,16 @@ namespace csv_интерпритация
             }
             //=ЕСЛИ(A1<>"";A1;"Сотрудник")
 
-            if (USER_info != null)
-            {
-                // WS_exc.Name = Window1.for_initials_n(rabotnici);//<<< Переименование листа!!!!! <<<<<<< 
-            }
-            else
-            {
+          
                 try
                 {
-                    WS_exc.Name = DATA.familia;
+                    WS_exc.Name = for_initials_n(USER_info.name, USER_info.family,USER_info.oth);
                 }
                 catch (Exception E)
                 {
 
                 }
-            }
+            
 
             return WS_exc;
         }
