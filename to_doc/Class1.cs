@@ -184,7 +184,7 @@ namespace to_doc
         List<String> dep;
 
         public user_card() { this.init(); }
-        ~user_card() { this.ctx.Dispose(); }
+        ~user_card() { this.ctx.Dispose(); this.grp.Dispose();}
         internal sealed class SystemCore_EnumerableDebugView
         {
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -365,8 +365,6 @@ namespace to_doc
             return null;
         }
 
-
-                        
         /*Получение списка пользователей из группы*/
         public List<NAME_id> GetUserList(int grups_id)
         {

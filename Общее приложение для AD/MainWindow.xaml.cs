@@ -29,6 +29,7 @@ namespace Общее_приложение_для_AD
     /// </summary>
     public partial class MainWindow : Window
     {
+        public csv_интерпритация.Excel_work EX;
         System.Timers.Timer Tomer_for_hod;
         DispatcherTimer DT_hod;
         hod_ HOD;
@@ -113,8 +114,7 @@ namespace Общее_приложение_для_AD
                 this.HOD.Show();
             }
         }
-
-
+      
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog OFD = new OpenFileDialog();
@@ -123,6 +123,8 @@ namespace Общее_приложение_для_AD
             if (BL == true)
             {
                 this.file_name = OFD.FileName;
+                PUT1.Content =  OFD.SafeFileName;
+
             }
             else {
                 this.file_name = "";
@@ -170,7 +172,7 @@ namespace Общее_приложение_для_AD
                     this.List_USERS_in_gruop.Add(new to_doc.Users(USER));
                     var user2 = this.asdf.GetUSERbySID(USER.SID);
 
-                    namess.Items.Add(user2.FIO + " | " + user2.login);
+                    namess.Items.Add(user2.FIO + " (" + user2.login + ")");
                 }     
             }
             if (namess.Items.Count > 0)
@@ -184,18 +186,7 @@ namespace Общее_приложение_для_AD
                 this.HOD.Close();
                 this.HOD = null;
             }
-           /* var USERs = this.asdf.GetUserList(comboBox1.SelectedIndex);
-            if (USERs != null)
-            {
-                for (int i = 0; i < USERs.Count; i++)
-                {
-                    namess.Items.Add(USERs[i].FIO + " | " + USERs[i].login);
-                }
-                if (namess.Items.Count > 0)
-                {
-                    namess.SelectedIndex = 0;
-                }
-            }*/
+
         }
         /*пользователи*/
         private void namess_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -205,13 +196,13 @@ namespace Общее_приложение_для_AD
         /*формирование карточки*/
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-
             var USERs = this.List_USERS_in_gruop[namess.SelectedIndex];
             var user2 = this.asdf.GetUSERbySID(USERs.SID);
             this.asdf.HTML_to_doc(user2.FIO, user2.login, "", "", user2.mail, "");
 
         }
-        object GetParam(PrincipalContext ctx, string StrokaPodkluch, string poluchaemoe ) {
+        object GetParam(PrincipalContext ctx, string StrokaPodkluch, string poluchaemoe)
+        {
             UserPrincipal foundUser1 = UserPrincipal.FindByIdentity(ctx, StrokaPodkluch);
             string temp = null;
             var e11 = (DirectoryEntry)foundUser1.GetUnderlyingObject();
@@ -260,24 +251,22 @@ namespace Общее_приложение_для_AD
         }
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            funct2("Денис","Купцов");
-    
-
-
             if (this.file_name != null)
             {
+                button3.IsEnabled = false;
                 Thread TH = new Thread(to_excel_thread);
                 TH.SetApartmentState(ApartmentState.STA);
                 TH.Start(null);
             }
         }
-        public csv_интерпритация.Excel_work EX;
+     
         private void to_excel_thread(object obj)
         {
             this.EX = new csv_интерпритация.Excel_work();
             this.EX.csv_to_DB(this.file_name);
             var test = this.EX.BD_c;
             this.EX.ff_osn();
+            button3.IsEnabled = true;
         }
 
         private void image1_ImageFailed(object sender, ExceptionRoutedEventArgs e)

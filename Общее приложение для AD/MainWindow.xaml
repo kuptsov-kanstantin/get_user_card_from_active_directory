@@ -14,5 +14,7 @@
         <Label Content="login; data; time;" Height="28" HorizontalAlignment="Left" Margin="12,127,0,0" Name="label2" VerticalAlignment="Top" Foreground="Red" />
         <Label Content="login; data; time;" Height="28" HorizontalAlignment="Left" Margin="12,141,0,0" Name="label3" VerticalAlignment="Top" Foreground="Red" />
         <Image Height="34" HorizontalAlignment="Left" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="274" Source="file:///E:/VS%20project/Общее%20приложение%20для%20AD/Общее%20приложение%20для%20AD/unisneft_logo.png" ImageFailed="image1_ImageFailed" Margin="12,12,0,0" />
+        <Label Content="Файл:" HorizontalAlignment="Left" Margin="138,159,0,0" VerticalAlignment="Top"/>
+        <Label Content="" HorizontalAlignment="Left" Margin="212,159,0,0" VerticalAlignment="Top" Name="PUT1"/>
     </Grid>
 </Window>
