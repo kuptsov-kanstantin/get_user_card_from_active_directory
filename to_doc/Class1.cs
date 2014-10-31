@@ -165,9 +165,7 @@ namespace to_doc
             this.nach_of_depart_oth = return_fam_name_otch(2, nach_of_depart);
 
         }
-
-
-        ~NAME_id() { }
+      //  ~NAME_id() { }
     }
 
     /*
@@ -176,6 +174,15 @@ namespace to_doc
 
     public class user_card
     {
+        static Word.Application word;
+        static Word.Document wordDoc;
+        public PrincipalContext ctx;
+        GroupPrincipal grp;
+        List<String> gruops;
+        List<NAME_id> users;
+        public List<Users> UsersOnList;
+        List<String> dep;
+
         public user_card() { this.init(); }
         ~user_card() { this.ctx.Dispose(); }
         internal sealed class SystemCore_EnumerableDebugView
@@ -228,8 +235,7 @@ namespace to_doc
                 this.PAS = PAS;
             }
         }
-        static Word.Application word;
-        static Word.Document wordDoc;
+   
         public void HTML_to_doc(string FIO, string login, string pass, string SKD, string post, string argv)
         {           
             var filepath = File.OpenText("..\\..\\HTMLPage1.html");
@@ -279,10 +285,7 @@ namespace to_doc
             //Close this form.
             //this.Close();
         }
-        public PrincipalContext ctx;
-        GroupPrincipal grp;
-        List<String> gruops;
-        List<NAME_id> users;
+
         /*инициализация связи с доменом*/
         public void init()
         {
@@ -315,10 +318,6 @@ namespace to_doc
                     DirectoryEntry searchRoot = new DirectoryEntry("LDAP://" + DomainPath);
                     DirectorySearcher d = new DirectorySearcher(searchRoot);
                     d.Filter = string.Format("(&(objectCategory=person)(objectClass=user)(givenname={0})(sn={1}))", firstname, lastname);
-                    /*   d.PropertiesToLoad.Add("givenname");//имя
-                       d.PropertiesToLoad.Add("cn");
-                       d.PropertiesToLoad.Add("sn");//фамилия
-                       d.PropertiesToLoad.Add("initials");// наверно отчество    */
                     d.PropertiesToLoad.Add("name");
                     d.PropertiesToLoad.Add("manager");//начальник
                     var resultCol = d.FindAll();
@@ -490,21 +489,17 @@ namespace to_doc
             return null;
         }
 
-       public  List<Users> UsersOnList;
-        List<String> dep;
+
         /*получение списка отделов... теперь!*/
         public List<String> GetAllDep()
         {
             this.dep = new List<string>();
             this.UsersOnList = this.GetALLUsers();
-
             var temp = new List<String>();
             for (int i = 0; i < this.UsersOnList.Count; i++)
             {
-                temp.Add(this.UsersOnList[i].DEPARTMENT); 
-            
-            }
-       
+                temp.Add(this.UsersOnList[i].DEPARTMENT);             
+            }       
             temp.Sort();
             for (int i = 0; i < temp.Count - 1; i++)
             {

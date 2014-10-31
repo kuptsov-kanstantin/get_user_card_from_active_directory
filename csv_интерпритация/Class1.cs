@@ -78,11 +78,7 @@ namespace csv_интерпритация
                         this.BD_c.Add(saf[i, 0], saf[i, 1], saf[i, 2]);
                     }
                 }
-                this.BD_c.update();
-                //  this.update_list();
-
-                //  var sd = new wpf_подсчет_excel.CreateExcelWorksheet();
-                //   sd.CreateExcelWorksheet1();
+                this.BD_c.update();  
             }
             catch (Exception e1)
             {
@@ -140,11 +136,7 @@ namespace csv_интерпритация
             String DAY_to_BEGIN = "06:00:00", FIO;
             if (USER_info != null)
             {
-                /* Famil = rabotnici.Familia;
-                 ima = rabotnici.name + ". ";
-                 otchestvo = rabotnici.otchestvo + ". ";*/
                 FIO = for_initials(USER_info.name, USER_info.family, USER_info.oth);
-                //DAY_to_BEGIN = rabotnici.DT_rabochi_den.hour + ":" + rabotnici.DT_rabochi_den.minute + ":" + rabotnici.DT_rabochi_den.second;
                 DAY_to_BEGIN = "6:00:00";
             }
             else
@@ -227,9 +219,6 @@ namespace csv_интерпритация
                 WS_exc.get_Range(String.Format("C{0}", count_bd + 5 + 8), Type.Missing).FormulaLocal = String.Format("{0}", "Начальник отдела");
                 WS_exc.get_Range(String.Format("C{0}", count_bd + 5 + 8), Type.Missing).Font.Bold = true;
             }
-            //=ЕСЛИ(A1<>"";A1;"Сотрудник")
-
-          
                 try
                 {
                     WS_exc.Name = for_initials_n(USER_info.name, USER_info.family,USER_info.oth);
@@ -238,8 +227,6 @@ namespace csv_интерпритация
                 {
 
                 }
-            
-
             return WS_exc;
         }
 
@@ -255,11 +242,6 @@ namespace csv_интерпритация
                 return;
             }
             wb = this.xlApp.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
-
-
-
-
-
             for (int i = 0; i < this.BD_c.list_of_users.Count; i++)
             {
                 var USER__ = this.BD_c.list_of_users[i];
@@ -271,83 +253,6 @@ namespace csv_интерпритация
                 ws_n = this.ListSheets(ws_n, USER__, rez);
             }
             this.xlApp.Visible = true;//// делает видимым окно экселя...   */
-
-/*
-            
-
-            int zn = 0;
-            var TRANSLIT = BD_c.D_T;
-            for (int id = 0; id < TRANSLIT.Count; id++)
-            {
-                var TRANSLIT_name = TRANSLIT[id];
-                if (rsa != null)
-                {
-                    bool asnaeb = false;
-                    for (int yy = 0; yy < rsa.Count; yy++)//поиск сотрудника в БД
-                    {
-                        var ima_bd = rsa[yy];
-                        if (String.Compare(TRANSLIT_name.familia, ima_bd.TRANSLIT) == 0)///сопоставление с базой
-                        {
-                            this.fiajsdkfjh = id;
-                            string podpis = null;
-                            var ws_n = (Excel.Worksheet)this.xlApp.Worksheets.Add();
-                            for (int yt = 0; yt < rsa.Count; yt++)//поиск начальника
-                            {
-                                if (yy != yt)
-                                {
-                                    var rsa_nach = rsa[yt];
-                                    if (ima_bd.otdel == rsa_nach.otdel)
-                                    {
-                                        if (rsa_nach.Naxalnik_otd_da_net == true)
-                                        {
-                                            podpis = Window1.for_initials(rsa_nach);
-                                            asnaeb = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    var rsa_nach = rsa[yt];
-                                    if (ima_bd.otdel == rsa_nach.otdel)
-                                    {
-                                        if (rsa_nach.Naxalnik_otd_da_net == true)
-                                        {
-                                            podpis = "П. Котэк";
-                                            asnaeb = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            if (asnaeb == false)
-                            {
-                                podpis = "Начальник отдела >>  " + rab.obj_((List_obj)savii.open_class("otdeli.xml", typeof(List_obj)), ima_bd.otdel);
-                            }
-                            asnaeb = true;
-
-                            ws_n = this.ListSheets(ws_n, ima_bd, TRANSLIT_name, podpis);
-
-                        }
-                    }
-                    if (asnaeb == false)
-                    {
-                     //   this.fiajsdkfjh = id;
-                        var ws_n = (Excel.Worksheet)this.xlApp.Worksheets.Add();
-                        ws_n = this.ListSheets(ws_n, null, TRANSLIT_name, "Начальник отдела");
-                    }
-                }
-                else
-                {
-                    var aaa = this.BD_c.D_T[id];
-                    //this.fiajsdkfjh = id;
-                    var ws_n = (Excel.Worksheet)this.xlApp.Worksheets.Add();
-                    ws_n = this.ListSheets(ws_n, null, aaa, "Начальник отдела");
-                }
-            }
-            this.xlApp.Visible = true;//// делает видимым окно экселя...   */   
-            // save();
-          //  this.timer.Stop();
         }
     }
 
