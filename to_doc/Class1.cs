@@ -177,7 +177,7 @@ namespace to_doc
     public class user_card
     {
         public user_card() { this.init(); }
-        ~user_card() { }
+        ~user_card() { this.ctx.Dispose(); }
         internal sealed class SystemCore_EnumerableDebugView
         {
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -269,10 +269,10 @@ namespace to_doc
 
             oTable.Cell(1, 1).Range.Text = FIO; oTable.Cell(1, 2).Range.Text = "login: " + login + Environment.NewLine + "pass " + pass + Environment.NewLine + "СКД " + SKD;
             oTable.Cell(2, 1).Range.Text = "Почта"; oTable.Cell(2, 2).Range.Text = post;
-            oTable.Cell(3, 1).Range.Text = "Личная папка"; oTable.Cell(3, 2).Range.Text = String.Format("N:\\+{0}\\{1}D:\\work\\{0}\\ = {1}Мои документы{1}", login, Environment.NewLine, '"');
+            oTable.Cell(3, 1).Range.Text = "Личная папка"; oTable.Cell(3, 2).Range.Text = String.Format("N:\\+{0}\\{1}D:\\work\\{0}\\ = {1}Мои документы{1}", login, Environment.NewLine);
             oTable.Cell(4, 1).Range.Text = "Общие ресурсы"; oTable.Cell(4, 2).Range.Text = String.Format("Сетевые папки:{0}N:\\{1}Папки сотрудников{0}J:\\PW\\{1}\\ Проекты{0}X:\\{1}сканер (Toshiba в тех. отделе){0}B:\\{1}техническая (ПО, драйвера)", Environment.NewLine, '\t');
-            oTable.Cell(5, 1).Range.Text = ""; oTable.Cell(5, 2).Range.Text = String.Format("ОРГ-ТЕХНИКА:{0}Toshiba (204.85.134.18){0}МФУ Ч/Б А3/А4 в тех.отделе", Environment.NewLine, '\t');
-            oTable.Cell(6, 1).Range.Text = String.Format("По всем вопросом касательно работы ПК и сети пишите по почте:{0}Кунцевич Андрей Михайлович{0}a.kuntsevich@unisneft.com", Environment.NewLine); oTable.Cell(6, 2).Range.Text = String.Format("HP DJ 500 (204.85.134.20){0}Плоттер Цветной А1 в тех.отделе", Environment.NewLine, '\t');
+            oTable.Cell(5, 1).Range.Text = ""; oTable.Cell(5, 2).Range.Text = String.Format("ОРГ-ТЕХНИКА:{0}Toshiba (204.85.134.18){0}МФУ Ч/Б А3/А4 в тех.отделе", Environment.NewLine);
+            oTable.Cell(6, 1).Range.Text = String.Format("По всем вопросом касательно работы ПК и сети пишите по почте:{0}Кунцевич Андрей Михайлович{0}a.kuntsevich@unisneft.com", Environment.NewLine); oTable.Cell(6, 2).Range.Text = String.Format("HP DJ 500 (204.85.134.20){0}Плоттер Цветной А1 в тех.отделе", Environment.NewLine);
 
 
 
