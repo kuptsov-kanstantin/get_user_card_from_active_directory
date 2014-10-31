@@ -33,7 +33,7 @@ namespace Общее_приложение_для_AD
         System.Timers.Timer Tomer_for_hod;
         DispatcherTimer DT_hod;
         hod_ HOD;
-        Thread T_hod;
+        Thread T_hod, zagruzka_spiska_perv;
          
         to_doc.user_card asdf;
         public String file_name;
@@ -131,8 +131,8 @@ namespace Общее_приложение_для_AD
             }
 
         }
-        static void Init_hod_window(){
-            var HOD = new hod_();
+        void Init_hod_window(){
+            this.HOD = new hod_();
             HOD.Show();
 
 
@@ -140,26 +140,24 @@ namespace Общее_приложение_для_AD
         Thread TH;
         void INIT_HOD() {
             this.TH = new Thread(Init_hod_window);
-            TH.SetApartmentState ( ApartmentState.STA);        
+            this.TH.SetApartmentState(ApartmentState.STA);        
         }
         List<to_doc.Users> List_USERS_in_gruop;
         /*групы */
         private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            this.HOD = new hod_();
-            this.HOD.Show();
-            //this.T_hod = new Thread(MainWindow.Init_hod_window);
-
-
             //this.HOD = new hod_();
+            //this.HOD.Show();
+            this.INIT_HOD();
+            this.TH.Start();
 
-           // this.init_DT();
-        //    this.Tomer_for_hod.Start();
-           // this.DT_hod.Start();
+            //this.T_hod = new Thread(MainWindow.Init_hod_window);
+            //this.HOD = new hod_();
+            // this.init_DT();
+            //    this.Tomer_for_hod.Start();
+            // this.DT_hod.Start();
             namess.Items.Clear();
-
             var GGL = this.asdf.GetAllDep();
-
             var department = GGL[comboBox1.SelectedIndex];
             this.List_USERS_in_gruop = new List<to_doc.Users>();
             for (int u = 0; u < this.asdf.UsersOnList.Count; u++)
@@ -167,26 +165,30 @@ namespace Общее_приложение_для_AD
                 this.CURRENT = u;
                 this.MAXIMUM = this.asdf.UsersOnList.Count;
                 var USER = this.asdf.UsersOnList[u];
+
+                if (this.HOD != null)
+                {
+                    this.HOD.Setup_param(u,this.asdf.UsersOnList.Count);
+                }
+
                 if (String.Compare(USER.DEPARTMENT, department) == 0)
-                {    
+                {
                     this.List_USERS_in_gruop.Add(new to_doc.Users(USER));
                     var user2 = this.asdf.GetUSERbySID(USER.SID);
-
                     namess.Items.Add(user2.FIO + " (" + user2.login + ")");
-                }     
+                }
             }
             if (namess.Items.Count > 0)
             {
                 namess.SelectedIndex = 0;
             }
-          //  this.Tomer_for_hod.Stop();
-           // this.DT_hod.Stop();
+            // this.Tomer_for_hod.Stop();
+            // this.DT_hod.Stop();
             if (this.HOD != null)
             {
                 this.HOD.Close();
                 this.HOD = null;
             }
-
         }
         /*пользователи*/
         private void namess_SelectionChanged(object sender, SelectionChangedEventArgs e)
