@@ -255,7 +255,4 @@ namespace csv_интерпритация
             this.xlApp.Visible = true;//// делает видимым окно экселя...   */
         }
     }
-
-
-
 }

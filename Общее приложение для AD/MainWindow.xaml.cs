@@ -130,8 +130,10 @@ namespace Общее_приложение_для_AD
                 this.file_name = "";
             }
 
-        }
+        }  
+        delegate void test_del();
         void Init_hod_window(){
+          
             this.HOD = new hod_();
             HOD.Show();
 
@@ -144,6 +146,31 @@ namespace Общее_приложение_для_AD
         }
         List<to_doc.Users> List_USERS_in_gruop;
         /*групы */
+        private void zagruzka_spiska()
+        {
+
+            var GGL = this.asdf.GetAllDep();
+            var department = GGL[comboBox1.SelectedIndex];
+            this.List_USERS_in_gruop = new List<to_doc.Users>();
+            for (int u = 0; u < this.asdf.UsersOnList.Count; u++)
+            {
+                this.CURRENT = u;
+                this.MAXIMUM = this.asdf.UsersOnList.Count;
+                var USER = this.asdf.UsersOnList[u];
+
+                //if (this.HOD != null)
+                //{
+                //    this.HOD.Setup_param(u,this.asdf.UsersOnList.Count);
+                //}
+
+                if (String.Compare(USER.DEPARTMENT, department) == 0)
+                {
+                    this.List_USERS_in_gruop.Add(new to_doc.Users(USER));
+                    var user2 = this.asdf.GetUSERbySID(USER.SID);
+                }
+            }
+        }
+        /*групы */
         private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //this.HOD = new hod_();
@@ -153,9 +180,9 @@ namespace Общее_приложение_для_AD
 
             //this.T_hod = new Thread(MainWindow.Init_hod_window);
             //this.HOD = new hod_();
-            // this.init_DT();
-            //    this.Tomer_for_hod.Start();
-            // this.DT_hod.Start();
+            //this.init_DT();
+            //this.Tomer_for_hod.Start();
+            //this.DT_hod.Start();
             namess.Items.Clear();
             var GGL = this.asdf.GetAllDep();
             var department = GGL[comboBox1.SelectedIndex];
@@ -168,7 +195,17 @@ namespace Общее_приложение_для_AD
 
                 if (this.HOD != null)
                 {
-                    this.HOD.Setup_param(u,this.asdf.UsersOnList.Count);
+                    this.HOD.Progress_ZagruzkaSPIS.Dispatcher.Invoke(DispatcherPriority.Background,
+                        new Action(() =>
+                        {
+                            this.HOD.Progress_ZagruzkaSPIS.Maximum = this.MAXIMUM;
+                            this.HOD.Progress_ZagruzkaSPIS.Value = this.CURRENT;
+                            
+                        })
+                        );
+
+
+                    this.HOD.Setup_param(u, this.asdf.UsersOnList.Count);
                 }
 
                 if (String.Compare(USER.DEPARTMENT, department) == 0)
