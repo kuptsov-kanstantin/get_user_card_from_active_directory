@@ -140,7 +140,8 @@ namespace Общее_приложение_для_AD
         Thread TH;
         void INIT_HOD() {
             this.TH = new Thread(Init_hod_window);
-            this.TH.SetApartmentState(ApartmentState.STA);        
+            this.TH.SetApartmentState(ApartmentState.STA);
+                   
         }
         List<to_doc.Users> List_USERS_in_gruop;
         /*групы */
@@ -168,7 +169,16 @@ namespace Общее_приложение_для_AD
 
                 if (this.HOD != null)
                 {
-                    this.HOD.Setup_param(u,this.asdf.UsersOnList.Count);
+                    this.HOD.Progress_ZagruzkaSPIS.Dispatcher.Invoke(DispatcherPriority.Normal,
+                        new Action(() =>
+                        {
+                            this.HOD.Progress_ZagruzkaSPIS.Maximum = this.MAXIMUM;
+                            this.HOD.Progress_ZagruzkaSPIS.Value = this.CURRENT;
+                          //  this.button3.IsEnabled = true;
+                        }
+                        )
+                        );
+                    this.HOD.Setup_param(u, this.asdf.UsersOnList.Count);
                 }
 
                 if (String.Compare(USER.DEPARTMENT, department) == 0)
@@ -186,8 +196,8 @@ namespace Общее_приложение_для_AD
             // this.DT_hod.Stop();
             if (this.HOD != null)
             {
-                this.HOD.Close();
-                this.HOD = null;
+               // this.HOD.Close();
+              //  this.HOD = null;
             }
         }
         /*пользователи*/
@@ -259,16 +269,24 @@ namespace Общее_приложение_для_AD
                 Thread TH = new Thread(to_excel_thread);
                 TH.SetApartmentState(ApartmentState.STA);
                 TH.Start(null);
+                TH.Join();
+             //   button3.IsEnabled = true;
             }
         }
-     
+
         private void to_excel_thread(object obj)
         {
             this.EX = new csv_интерпритация.Excel_work();
             this.EX.csv_to_DB(this.file_name);
             var test = this.EX.BD_c;
             this.EX.ff_osn();
-            button3.IsEnabled = true;
+            this.button3.Dispatcher.Invoke(DispatcherPriority.Normal,
+                new Action(() =>
+                {
+                    this.button3.IsEnabled = true;
+                }
+                    )
+                );
         }
 
         private void image1_ImageFailed(object sender, ExceptionRoutedEventArgs e)
