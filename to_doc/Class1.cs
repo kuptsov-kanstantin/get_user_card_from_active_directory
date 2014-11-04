@@ -256,38 +256,6 @@ namespace to_doc
             word.Visible = true;
             wordDoc = word.Documents.Open(strtty + "\\temp.html");
         }
-        static void button1_Click(string FIO, string login, string pass, string SKD, string post)
-        {
-            object oMissing = System.Reflection.Missing.Value;
-            object oEndOfDoc = "\\endofdoc"; /* \endofdoc is a predefined bookmark */
-
-            //Start Word and create a new document.
-            Word._Application oWord;
-            Word._Document oDoc;
-            oWord = new Word.Application();
-            oWord.Visible = true;
-            oDoc = oWord.Documents.Add(ref oMissing, ref oMissing, ref oMissing, ref oMissing);
-
-            Word.Table oTable;
-            Word.Range wrdRng = oDoc.Bookmarks.get_Item(ref oEndOfDoc).Range;
-            oTable = oDoc.Tables.Add(wrdRng, 6, 2, ref oMissing, ref oMissing);
-            oTable.Range.ParagraphFormat.SpaceAfter = 0.1F;
-
-            // oTable.Range.Font = ;
-            //oTable.Title = FIO;
-
-            oTable.Cell(1, 1).Range.Text = FIO; oTable.Cell(1, 2).Range.Text = "login: " + login + Environment.NewLine + "pass " + pass + Environment.NewLine + "СКД " + SKD;
-            oTable.Cell(2, 1).Range.Text = "Почта"; oTable.Cell(2, 2).Range.Text = post;
-            oTable.Cell(3, 1).Range.Text = "Личная папка"; oTable.Cell(3, 2).Range.Text = String.Format("N:\\+{0}\\{1}D:\\work\\{0}\\ = {1}Мои документы{1}", login, Environment.NewLine);
-            oTable.Cell(4, 1).Range.Text = "Общие ресурсы"; oTable.Cell(4, 2).Range.Text = String.Format("Сетевые папки:{0}N:\\{1}Папки сотрудников{0}J:\\PW\\{1}\\ Проекты{0}X:\\{1}сканер (Toshiba в тех. отделе){0}B:\\{1}техническая (ПО, драйвера)", Environment.NewLine, '\t');
-            oTable.Cell(5, 1).Range.Text = ""; oTable.Cell(5, 2).Range.Text = String.Format("ОРГ-ТЕХНИКА:{0}Toshiba (204.85.134.18){0}МФУ Ч/Б А3/А4 в тех.отделе", Environment.NewLine);
-            oTable.Cell(6, 1).Range.Text = String.Format("По всем вопросом касательно работы ПК и сети пишите по почте:{0}Кунцевич Андрей Михайлович{0}a.kuntsevich@unisneft.com", Environment.NewLine); oTable.Cell(6, 2).Range.Text = String.Format("HP DJ 500 (204.85.134.20){0}Плоттер Цветной А1 в тех.отделе", Environment.NewLine);
-
-
-
-            //Close this form.
-            //this.Close();
-        }
 
         /*инициализация связи с доменом*/
         public void init()
@@ -555,7 +523,7 @@ namespace to_doc
                     {
                         Person p2 = new JavaScriptSerializer().Deserialize<Person>(desc.ToString());
                         Console.Write("{0} {1} {2}", desc.ToString(), p2.PAS, p2.SKD);
-                        HTML_to_doc(FIO, login, p2.PAS, p2.SKD.ToString(), mail, "");
+                        HTML_to_doc(FIO, login, p2.PAS, p2.SKD.ToString(), mail);
                         // button1_Click(FIO, login, p2.PAS, p2.SKD.ToString(), mail);
 
                     }
@@ -608,12 +576,12 @@ namespace to_doc
                             if (p2 == null)
                             {
                                 Console.Write("{0} {1} {2}", desc.ToString(), " ", " ");
-                                HTML_to_doc(FIO, login, " ", " ", mail, "");
+                                HTML_to_doc(FIO, login, " ", " ", mail);
                             }
                             else
                             {
                                 Console.Write("{0} {1} {2}", desc.ToString(), p2.PAS, p2.SKD);
-                                HTML_to_doc(FIO, login, p2.PAS, p2.SKD.ToString(), mail, "");
+                                HTML_to_doc(FIO, login, p2.PAS, p2.SKD.ToString(), mail);
                             }
                         }
                     }
@@ -636,7 +604,7 @@ namespace to_doc
                         {
                             Person p2 = new JavaScriptSerializer().Deserialize<Person>(desc.ToString());
                             Console.Write("{0} {1} {2}", desc.ToString(), p2.PAS, p2.SKD);
-                            HTML_to_doc(FIO, login, p2.PAS, p2.SKD.ToString(), mail, "");
+                            HTML_to_doc(FIO, login, p2.PAS, p2.SKD.ToString(), mail);
                         }
                     }
                     yy++;

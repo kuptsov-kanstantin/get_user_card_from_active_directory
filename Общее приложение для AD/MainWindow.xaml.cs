@@ -210,7 +210,7 @@ namespace Общее_приложение_для_AD
         {
             var USERs = this.List_USERS_in_gruop[namess.SelectedIndex];
             var user2 = this.asdf.GetUSERbySID(USERs.SID);
-            this.asdf.HTML_to_doc(user2.FIO, user2.login, "pass", "skd", user2.mail, "");
+            this.asdf.HTML_to_doc(user2.FIO, user2.login, "pass", "skd", user2.mail);
 
         }
         object GetParam(PrincipalContext ctx, string StrokaPodkluch, string poluchaemoe)
