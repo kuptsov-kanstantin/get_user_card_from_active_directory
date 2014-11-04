@@ -169,15 +169,15 @@ namespace Общее_приложение_для_AD
 
                 if (this.HOD != null)
                 {
-                    this.HOD.Progress_ZagruzkaSPIS.Dispatcher.Invoke(DispatcherPriority.Normal,
+                /*    this.HOD.Progress_ZagruzkaSPIS.Dispatcher.Invoke(DispatcherPriority.Normal,
                         new Action(() =>
                         {
                             this.HOD.Progress_ZagruzkaSPIS.Maximum = this.MAXIMUM;
                             this.HOD.Progress_ZagruzkaSPIS.Value = this.CURRENT;
                           //  this.button3.IsEnabled = true;
-                        }
+                        } 
                         )
-                        );
+                        );*/
                     this.HOD.Setup_param(u, this.asdf.UsersOnList.Count);
                 }
 
@@ -210,7 +210,7 @@ namespace Общее_приложение_для_AD
         {
             var USERs = this.List_USERS_in_gruop[namess.SelectedIndex];
             var user2 = this.asdf.GetUSERbySID(USERs.SID);
-            this.asdf.HTML_to_doc(user2.FIO, user2.login, "", "", user2.mail, "");
+            this.asdf.HTML_to_doc(user2.FIO, user2.login, "pass", "skd", user2.mail, "");
 
         }
         object GetParam(PrincipalContext ctx, string StrokaPodkluch, string poluchaemoe)
@@ -265,7 +265,7 @@ namespace Общее_приложение_для_AD
         {
             if (this.file_name != null)
             {
-                button3.IsEnabled = false;
+                //button3.IsEnabled = false;
                 Thread TH = new Thread(to_excel_thread);
                 TH.SetApartmentState(ApartmentState.STA);
                 TH.Start(null);

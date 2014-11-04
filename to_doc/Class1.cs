@@ -184,7 +184,10 @@ namespace to_doc
         List<String> dep;
 
         public user_card() { this.init(); }
-        ~user_card() { this.ctx.Dispose(); this.grp.Dispose();}
+        ~user_card() { 
+            if (this.ctx != null) this.ctx.Dispose(); 
+            if (this.grp != null)this.grp.Dispose(); 
+        }
         internal sealed class SystemCore_EnumerableDebugView
         {
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -236,7 +239,7 @@ namespace to_doc
             }
         }
    
-        public void HTML_to_doc(string FIO, string login, string pass, string SKD, string post, string argv)
+        public void HTML_to_doc(string FIO, string login, string pass, string SKD, string post)
         {           
             var filepath = File.OpenText("..\\..\\HTMLPage1.html");
             String tesvt = filepath.ReadToEnd();
