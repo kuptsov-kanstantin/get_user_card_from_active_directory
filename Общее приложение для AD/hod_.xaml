@@ -1,10 +1,10 @@
 ﻿<Window x:Class="Общее_приложение_для_AD.hod_"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="hod_" Height="141.6" Width="338.4">
+        Title="В процессе..." Height="141.6" Width="338.4">
     <Grid>
         <Label Content="Идет загрузка списка." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <ProgressBar HorizontalAlignment="Left" Height="10" Margin="34,63,0,0" VerticalAlignment="Top" Width="100" Name="Progress_ZagruzkaSPIS"/>
+        <ProgressBar HorizontalAlignment="Left" Height="10" Margin="34,63,0,0" VerticalAlignment="Top" Width="250" Name="Progress_ZagruzkaSPIS"/>
         <Label Content="" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Name="ZagruzkaSPIS"/>
 
     </Grid>

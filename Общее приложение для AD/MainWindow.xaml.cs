@@ -137,29 +137,18 @@ namespace Общее_приложение_для_AD
 
 
         }
-        Thread TH;
-        void INIT_HOD() {
-            this.TH = new Thread(Init_hod_window);
-            this.TH.SetApartmentState(ApartmentState.STA);
-                   
-        }
-        List<to_doc.Users> List_USERS_in_gruop;
-        /*групы */
-        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //this.HOD = new hod_();
-            //this.HOD.Show();
-            this.INIT_HOD();
-            this.TH.Start();
+        Thread TH, load_users;
 
-            //this.T_hod = new Thread(MainWindow.Init_hod_window);
-            //this.HOD = new hod_();
-            // this.init_DT();
-            //    this.Tomer_for_hod.Start();
-            // this.DT_hod.Start();
-            namess.Items.Clear();
+        void load_users_thread()
+        {
+            int pos = 0;
+            Dispatcher.BeginInvoke(new ThreadStart(delegate
+            {
+                namess.Items.Clear();
+                pos = comboBox1.SelectedIndex;
+            }));
             var GGL = this.asdf.GetAllDep();
-            var department = GGL[comboBox1.SelectedIndex];
+            var department = GGL[pos];
             this.List_USERS_in_gruop = new List<to_doc.Users>();
             for (int u = 0; u < this.asdf.UsersOnList.Count; u++)
             {
@@ -169,36 +158,62 @@ namespace Общее_приложение_для_AD
 
                 if (this.HOD != null)
                 {
-                /*    this.HOD.Progress_ZagruzkaSPIS.Dispatcher.Invoke(DispatcherPriority.Normal,
-                        new Action(() =>
-                        {
-                            this.HOD.Progress_ZagruzkaSPIS.Maximum = this.MAXIMUM;
-                            this.HOD.Progress_ZagruzkaSPIS.Value = this.CURRENT;
-                          //  this.button3.IsEnabled = true;
-                        } 
-                        )
-                        );*/
-                    this.HOD.Setup_param(u, this.asdf.UsersOnList.Count);
+                    /*    this.HOD.Progress_ZagruzkaSPIS.Dispatcher.Invoke(DispatcherPriority.Normal,
+                            new Action(() =>
+                            {
+                                this.HOD.Progress_ZagruzkaSPIS.Maximum = this.MAXIMUM;
+                                this.HOD.Progress_ZagruzkaSPIS.Value = this.CURRENT;
+                              //  this.button3.IsEnabled = true;
+                            } 
+                            )
+                            );*/
+                    Dispatcher.BeginInvoke(new ThreadStart(delegate
+                    {
+                        this.HOD.Show();
+                        this.HOD.Setup_param(u, this.asdf.UsersOnList.Count); ;
+                    }));
+              
                 }
 
                 if (String.Compare(USER.DEPARTMENT, department) == 0)
                 {
                     this.List_USERS_in_gruop.Add(new to_doc.Users(USER));
                     var user2 = this.asdf.GetUSERbySID(USER.SID);
-                    namess.Items.Add(user2.FIO + " (" + user2.login + ")");
+                    Dispatcher.BeginInvoke(new ThreadStart(delegate
+                    {
+                        namess.Items.Add(user2.FIO + " (" + user2.login + ")");
+                    }));
                 }
             }
-            if (namess.Items.Count > 0)
-            {
-                namess.SelectedIndex = 0;
-            }
-            // this.Tomer_for_hod.Stop();
-            // this.DT_hod.Stop();
+            Dispatcher.BeginInvoke(new ThreadStart(delegate
+                {
+                    if (namess.Items.Count > 0)
+                    {
+                        namess.SelectedIndex = 0;
+                    }
+                }));
             if (this.HOD != null)
             {
-               // this.HOD.Close();
-              //  this.HOD = null;
+                // this.HOD.Close();
+                //  this.HOD = null;
             }
+        }
+        void INIT_HOD() {
+            this.TH = new Thread(Init_hod_window);
+            this.TH.SetApartmentState(ApartmentState.STA);
+            this.TH.Start();
+
+
+
+        }
+        List<to_doc.Users> List_USERS_in_gruop;
+        /*групы */
+        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {      
+            this.INIT_HOD();
+            this.load_users = new Thread(load_users_thread);
+            this.load_users.SetApartmentState(ApartmentState.STA);
+            this.load_users.Start();     
         }
         /*пользователи*/
         private void namess_SelectionChanged(object sender, SelectionChangedEventArgs e)

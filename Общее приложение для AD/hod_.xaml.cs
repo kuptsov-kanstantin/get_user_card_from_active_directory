@@ -30,7 +30,7 @@ namespace Общее_приложение_для_AD
             this.DT = new DispatcherTimer();
             this.DT.Tick += DT_Tick;
             this.DT.Interval = new TimeSpan(5);
-           // this.DT.Start();
+            this.DT.Start();
         }
 
         void DT_Tick(object sender, EventArgs e)
@@ -38,7 +38,7 @@ namespace Общее_приложение_для_AD
             ZagruzkaSPIS.Content = String.Format("Идет загрузка списка. {0} из {1} ", znach, vse);
             Progress_ZagruzkaSPIS.Maximum = vse;
             Progress_ZagruzkaSPIS.Value = znach;
-            if(vse == znach){
+            if(vse <= znach){
                 this.DT.Stop();
             }
         }
@@ -49,10 +49,13 @@ namespace Общее_приложение_для_AD
         }
         public void Setup_param(int znach, int vse)
         {
-            Dispatcher.BeginInvoke(new ThreadStart(delegate {
+            Dispatcher.BeginInvoke(new ThreadStart(delegate
+            {
+              //  this.Show();
                 ZagruzkaSPIS.Content = String.Format("Идет загрузка списка. {0} из {1} ", znach, vse);
                 Progress_ZagruzkaSPIS.Maximum = vse;
                 Progress_ZagruzkaSPIS.Value = znach;
+             //   this.Close();
             }));
             BackgroundWorker BW;
 
