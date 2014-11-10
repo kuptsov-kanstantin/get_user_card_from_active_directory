@@ -158,7 +158,7 @@ namespace Общее_приложение_для_AD
 
                 if (this.HOD != null)
                 {
-                    /*    this.HOD.Progress_ZagruzkaSPIS.Dispatcher.Invoke(DispatcherPriority.Normal,
+                        /*this.HOD.Progress_ZagruzkaSPIS.Dispatcher.Invoke(DispatcherPriority.Normal,
                             new Action(() =>
                             {
                                 this.HOD.Progress_ZagruzkaSPIS.Maximum = this.MAXIMUM;
@@ -167,12 +167,17 @@ namespace Общее_приложение_для_AD
                             } 
                             )
                             );*/
-                    Dispatcher.BeginInvoke(new ThreadStart(delegate
+                   /* Dispatcher.BeginInvoke(new ThreadStart(delegate
                     {
-                        this.HOD.Show();
-                        this.HOD.Setup_param(u, this.asdf.UsersOnList.Count); ;
-                    }));
-              
+                        if (this.HOD != null)
+                        {
+                            this.HOD.Show();
+                            this.HOD.Setup_param(u, this.asdf.UsersOnList.Count); ;
+                            //this.HOD.Progress_ZagruzkaSPIS.Maximum = this.MAXIMUM;
+                           // this.HOD.Progress_ZagruzkaSPIS.Value = this.CURRENT;
+                        }
+                    }));*/
+
                 }
 
                 if (String.Compare(USER.DEPARTMENT, department) == 0)
