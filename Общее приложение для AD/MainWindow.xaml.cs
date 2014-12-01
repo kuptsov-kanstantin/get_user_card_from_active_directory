@@ -186,7 +186,10 @@ namespace Общее_приложение_для_AD
                     var user2 = this.asdf.GetUSERbySID(USER.SID);
                     Dispatcher.BeginInvoke(new ThreadStart(delegate
                     {
-                        namess.Items.Add(user2.FIO + " (" + user2.login + ")");
+                        if (user2.nach_of_depart != null)
+                            namess.Items.Add(user2.FIO + " (" + user2.login + ") " + user2.nach_of_depart);
+                        else
+                            namess.Items.Add(user2.FIO + " (" + user2.login + ") ");
                     }));
                 }
             }
