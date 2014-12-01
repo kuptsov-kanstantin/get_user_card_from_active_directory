@@ -157,26 +157,7 @@ namespace Общее_приложение_для_AD
                 var USER = this.asdf.UsersOnList[u];
 
                 if (this.HOD != null)
-                {
-                        /*this.HOD.Progress_ZagruzkaSPIS.Dispatcher.Invoke(DispatcherPriority.Normal,
-                            new Action(() =>
-                            {
-                                this.HOD.Progress_ZagruzkaSPIS.Maximum = this.MAXIMUM;
-                                this.HOD.Progress_ZagruzkaSPIS.Value = this.CURRENT;
-                              //  this.button3.IsEnabled = true;
-                            } 
-                            )
-                            );*/
-                   /* Dispatcher.BeginInvoke(new ThreadStart(delegate
-                    {
-                        if (this.HOD != null)
-                        {
-                            this.HOD.Show();
-                            this.HOD.Setup_param(u, this.asdf.UsersOnList.Count); ;
-                            //this.HOD.Progress_ZagruzkaSPIS.Maximum = this.MAXIMUM;
-                           // this.HOD.Progress_ZagruzkaSPIS.Value = this.CURRENT;
-                        }
-                    }));*/
+                {                       
 
                 }
 
@@ -184,22 +165,26 @@ namespace Общее_приложение_для_AD
                 {
                     this.List_USERS_in_gruop.Add(new to_doc.Users(USER));
                     var user2 = this.asdf.GetUSERbySID(USER.SID);
-                    Dispatcher.BeginInvoke(new ThreadStart(delegate
-                    {
-                        if (user2.nach_of_depart != null)
-                            namess.Items.Add(user2.FIO + " (" + user2.login + ") " + user2.nach_of_depart);
-                        else
-                            namess.Items.Add(user2.FIO + " (" + user2.login + ") ");
-                    }));
+                    Dispatcher.BeginInvoke(
+                        new ThreadStart(delegate
+                            {
+                                try
+                                {
+                                    if (user2.nach_of_depart != null)
+                                        namess.Items.Add(user2.FIO + " (" + user2.login + ") " + user2.nach_of_depart);
+                                    else
+                                        namess.Items.Add(user2.FIO + " (" + user2.login + ") ");
+                                    if (namess.Items.Count > 0)
+                                    {
+                                        namess.SelectedIndex = 0;
+                                    }
+                                }
+                                catch (Exception E)
+                                {
+                                }
+                            }));
                 }
-            }
-            Dispatcher.BeginInvoke(new ThreadStart(delegate
-                {
-                    if (namess.Items.Count > 0)
-                    {
-                        namess.SelectedIndex = 0;
-                    }
-                }));
+            } 
             if (this.HOD != null)
             {
                 // this.HOD.Close();

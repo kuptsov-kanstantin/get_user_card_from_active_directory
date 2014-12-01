@@ -13,7 +13,7 @@
         <Image Height="34" HorizontalAlignment="Left" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="274" Source="unisneft_logo.png" ImageFailed="image1_ImageFailed" Margin="12,12,0,0" />
         <Label Content="Файл:" HorizontalAlignment="Left" Margin="146,185,0,0" VerticalAlignment="Top"/>
         <Label Content="" HorizontalAlignment="Left" Margin="220,185,0,0" VerticalAlignment="Top" Name="PUT1"/>
-        <Label Content="Карточка" HorizontalAlignment="Left" Margin="0,37,0,0" VerticalAlignment="Top" Foreground="#FF008DD2" FontWeight="Bold" FontSize="36" FontFamily="Calibri"/>
-        <Label Content="Отчет" HorizontalAlignment="Left" Margin="0,157,0,0" VerticalAlignment="Top" Foreground="#FF008DD2" FontWeight="Bold" FontSize="36" FontFamily="Calibri"/>
+        <Label Content="Карточка" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Foreground="#FF008DD2" FontWeight="Bold" FontSize="36" FontFamily="Calibri"/>
+        <Label Content="Отчет" HorizontalAlignment="Left" Margin="10,157,0,0" VerticalAlignment="Top" Foreground="#FF008DD2" FontWeight="Bold" FontSize="36" FontFamily="Calibri"/>
     </Grid>
 </Window>
