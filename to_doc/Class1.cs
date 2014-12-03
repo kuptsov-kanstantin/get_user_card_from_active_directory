@@ -243,15 +243,86 @@ namespace to_doc
             List<string> rez = new List<string>();
             string text = asd;
            // string paterrn = @"(?<=([^\w]|^))([Hh]\w*[o])(?=([^\w]|$))";
-            string paterrn = @"(?<=([%]))(\w*)(?=([%]))";
+           /* string paterrn = @"(?<=([^%]))(\w*)(?=([%]))";
          
             for (var m = Regex.Match(text, paterrn); m.Success; m = m.NextMatch())
             {
                 rez.Add(m.Value);
               //  Console.WriteLine(m.Value);
             }
+            */
+
+            string strRegex = @"(?<=([%]))(\w*)(?=([%]))";
+            Regex myRegex = new Regex(strRegex, RegexOptions.None);
+        //    string strTargetString = @"Regex Hero is a real-time online Silverlight %Regular% Expression %Tester%.";
+
+            foreach (Match myMatch in myRegex.Matches(text))
+            {
+                if (myMatch.Success)
+                {
+                    rez.Add(myMatch.Value);
+                    // Add your code here
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
             return rez;
         }
+        public void HTML_to_doc(string SID)
+        {
+            try
+            {
+                var strtty = Directory.GetCurrentDirectory();
+                var filepath = File.OpenText(strtty + "\\HTMLPage1.html");
+                String tesvt = filepath.ReadToEnd();
+                List<string> rez = new List<string>();
+                string text = tesvt;
+
+                string strRegex = @"(?<=([%]))(\w*)(?=([%]))";
+                Regex myRegex = new Regex(strRegex, RegexOptions.None);
+                //    string strTargetString = @"Regex Hero is a real-time online Silverlight %Regular% Expression %Tester%.";
+
+                foreach (Match myMatch in myRegex.Matches(text))
+                {
+                    if (myMatch.Success)
+                    {
+                        rez.Add(myMatch.Value);
+                    }
+                }
+                rez = rez.Distinct().ToList();
+
+                var ctx = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+                UserPrincipal foundUser = UserPrincipal.FindByIdentity(ctx, IdentityType.Sid, SID);/// поиск пользователя
+                var e1 = (DirectoryEntry)foundUser.GetUnderlyingObject();//получение информации о человеке
+                foreach (string str in rez)
+                {
+                    var ttee = test_obs(e1, str);
+                    tesvt = tesvt.Replace('%' + str + '%', ttee);
+
+                }
+   
+                File.WriteAllText(strtty + "\\temp.html", tesvt);
+
+                Object oMissing = System.Reflection.Missing.Value;
+                if (word == null) word = new Word.Application();
+                word.Visible = true;
+                wordDoc = word.Documents.Open(strtty + "\\temp.html");
+            }
+            catch (Exception trt)
+            {
+
+            }
+        }
+
         public void HTML_to_doc(string FIO, string login, string pass, string SKD, string post)
         {
             try
@@ -259,8 +330,30 @@ namespace to_doc
                 var strtty = Directory.GetCurrentDirectory();
                 var filepath = File.OpenText(strtty + "\\HTMLPage1.html");
                 String tesvt = filepath.ReadToEnd();
-                var tt =  TEST(tesvt);
-               
+                List<string> rez = new List<string>();
+                string text = tesvt;      
+
+                string strRegex = @"(?<=([%]))(\w*)(?=([%]))";
+                Regex myRegex = new Regex(strRegex, RegexOptions.None);
+                //    string strTargetString = @"Regex Hero is a real-time online Silverlight %Regular% Expression %Tester%.";
+
+                foreach (Match myMatch in myRegex.Matches(text))
+                {
+                    if (myMatch.Success)
+                    {
+                        rez.Add(myMatch.Value);
+                    }
+                }
+                rez = rez.Distinct().ToList();
+
+
+              
+                foreach (string str in rez) { 
+                
+                
+                }
+
+
                 String[] tem_z = { "$FIO", "$login", "$pass", "$skd", "$mail" };
 
                /* test_obs(e, "sAMAccountName");

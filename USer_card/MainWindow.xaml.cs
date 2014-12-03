@@ -55,8 +55,8 @@ namespace USer_card
         private void button2_Click(object sender, RoutedEventArgs e)
         {
             var USERs = this.List_USERS_in_gruop[namess.SelectedIndex];
-            var user2 = this.asdf.GetUSERbySID(USERs.SID);
-            this.asdf.HTML_to_doc(user2.FIO, user2.login, "pass", "skd", user2.mail);
+           // var user2 = this.asdf.GetUSERbySID(USERs.SID);
+            this.asdf.HTML_to_doc(USERs.SID);
 
         }
         private void namess_SelectionChanged(object sender, SelectionChangedEventArgs e)
