@@ -18,6 +18,7 @@ using System.Web.Script.Serialization;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Packaging;
 using System.Security.Principal;
+using System.Text.RegularExpressions;
 
 namespace to_doc
 {
@@ -238,7 +239,19 @@ namespace to_doc
                 this.PAS = PAS;
             }
         }
-
+        List< string> TEST(string asd) {
+            List<string> rez = new List<string>();
+            string text = asd;
+           // string paterrn = @"(?<=([^\w]|^))([Hh]\w*[o])(?=([^\w]|$))";
+            string paterrn = @"(?<=([%]))(\w*)(?=([%]))";
+         
+            for (var m = Regex.Match(text, paterrn); m.Success; m = m.NextMatch())
+            {
+                rez.Add(m.Value);
+              //  Console.WriteLine(m.Value);
+            }
+            return rez;
+        }
         public void HTML_to_doc(string FIO, string login, string pass, string SKD, string post)
         {
             try
@@ -246,7 +259,16 @@ namespace to_doc
                 var strtty = Directory.GetCurrentDirectory();
                 var filepath = File.OpenText(strtty + "\\HTMLPage1.html");
                 String tesvt = filepath.ReadToEnd();
+                var tt =  TEST(tesvt);
+               
                 String[] tem_z = { "$FIO", "$login", "$pass", "$skd", "$mail" };
+
+               /* test_obs(e, "sAMAccountName");
+                            test_obs(e, "cn");
+                            test_obs(e, "mail");
+                            test_obs(e, "manager");
+                */
+
                 tesvt = tesvt.Replace(tem_z[0], FIO);
                 tesvt = tesvt.Replace(tem_z[1], login);
                 tesvt = tesvt.Replace(tem_z[2], pass);

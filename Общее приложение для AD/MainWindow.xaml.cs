@@ -67,15 +67,7 @@ namespace Общее_приложение_для_AD
             }
             else
             {
-                var GGL = this.asdf.GetAllDep();
-                for (int i = 0; i < GGL.Count; i++)
-                {
-                    comboBox1.Items.Add(GGL[i]);
-                }
-                if (comboBox1.Items.Count > 0)
-                {
-                    comboBox1.SelectedIndex = 0;
-                }
+               
             }
         }
 
@@ -143,58 +135,7 @@ namespace Общее_приложение_для_AD
         }
         Thread TH, load_users;
 
-        void load_users_thread()
-        {
-            int pos = 0;
-            Dispatcher.BeginInvoke(new ThreadStart(delegate
-            {
-                namess.Items.Clear();
-                pos = comboBox1.SelectedIndex;
-            }));
-            var GGL = this.asdf.GetAllDep();
-            var department = GGL[pos];
-            this.List_USERS_in_gruop = new List<to_doc.Users>();
-            for (int u = 0; u < this.asdf.UsersOnList.Count; u++)
-            {
-                this.CURRENT = u;
-                this.MAXIMUM = this.asdf.UsersOnList.Count;
-                var USER = this.asdf.UsersOnList[u];
-
-                if (this.HOD != null)
-                {
-
-                }
-
-                if (String.Compare(USER.DEPARTMENT, department) == 0)
-                {
-                    this.List_USERS_in_gruop.Add(new to_doc.Users(USER));
-                    var user2 = this.asdf.GetUSERbySID(USER.SID);
-                    Dispatcher.BeginInvoke(
-                        new ThreadStart(delegate
-                            {
-                                try
-                                {
-                                    if (user2.nach_of_depart != null)
-                                        namess.Items.Add(user2.FIO + " (" + user2.login + ") " + user2.nach_of_depart);
-                                    else
-                                        namess.Items.Add(user2.FIO + " (" + user2.login + ") ");
-                                    if (namess.Items.Count > 0)
-                                    {
-                                        namess.SelectedIndex = 0;
-                                    }
-                                }
-                                catch (Exception E)
-                                {
-                                }
-                            }));
-                }
-            }
-            if (this.HOD != null)
-            {
-                // this.HOD.Close();
-                //  this.HOD = null;
-            }
-        }
+       
         void INIT_HOD()
         {
             this.TH = new Thread(Init_hod_window);
@@ -205,27 +146,13 @@ namespace Общее_приложение_для_AD
 
         }
         List<to_doc.Users> List_USERS_in_gruop;
-        /*групы */
-        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            this.INIT_HOD();
-            this.load_users = new Thread(load_users_thread);
-            this.load_users.SetApartmentState(ApartmentState.STA);
-            this.load_users.Start();
-        }
+      
         /*пользователи*/
         private void namess_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
-        /*формирование карточки*/
-        private void button2_Click(object sender, RoutedEventArgs e)
-        {
-            var USERs = this.List_USERS_in_gruop[namess.SelectedIndex];
-            var user2 = this.asdf.GetUSERbySID(USERs.SID);
-            this.asdf.HTML_to_doc(user2.FIO, user2.login, "pass", "skd", user2.mail);
-
-        }
+       
         object GetParam(PrincipalContext ctx, string StrokaPodkluch, string poluchaemoe)
         {
             UserPrincipal foundUser1 = UserPrincipal.FindByIdentity(ctx, StrokaPodkluch);

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Общее приложение для AD", "Общее приложение для AD\Общее приложение для AD.csproj", "{E6516536-47D8-42E2-A041-7FEECA591BC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "report_excel", "Общее приложение для AD\report_excel.csproj", "{E6516536-47D8-42E2-A041-7FEECA591BC9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7AEA8E35-CB50-44A4-9AD3-7EFB98EABFAD} = {7AEA8E35-CB50-44A4-9AD3-7EFB98EABFAD}
 		{120A046C-3282-4215-98B9-57FE94BBF4D3} = {120A046C-3282-4215-98B9-57FE94BBF4D3}
@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csv_интерпритац�
 	ProjectSection(ProjectDependencies) = postProject
 		{120A046C-3282-4215-98B9-57FE94BBF4D3} = {120A046C-3282-4215-98B9-57FE94BBF4D3}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USer_card", "USer_card\USer_card.csproj", "{13E6F19C-4F09-4361-B5F1-D018FE6D428E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,16 @@ Global
 		{7AEA8E35-CB50-44A4-9AD3-7EFB98EABFAD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7AEA8E35-CB50-44A4-9AD3-7EFB98EABFAD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{7AEA8E35-CB50-44A4-9AD3-7EFB98EABFAD}.Release|x86.ActiveCfg = Release|Any CPU
+		{13E6F19C-4F09-4361-B5F1-D018FE6D428E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13E6F19C-4F09-4361-B5F1-D018FE6D428E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13E6F19C-4F09-4361-B5F1-D018FE6D428E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{13E6F19C-4F09-4361-B5F1-D018FE6D428E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{13E6F19C-4F09-4361-B5F1-D018FE6D428E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{13E6F19C-4F09-4361-B5F1-D018FE6D428E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13E6F19C-4F09-4361-B5F1-D018FE6D428E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13E6F19C-4F09-4361-B5F1-D018FE6D428E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{13E6F19C-4F09-4361-B5F1-D018FE6D428E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{13E6F19C-4F09-4361-B5F1-D018FE6D428E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
