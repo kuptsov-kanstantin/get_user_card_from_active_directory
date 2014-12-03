@@ -34,11 +34,12 @@ namespace Общее_приложение_для_AD
         DispatcherTimer DT_hod;
         hod_ HOD;
         Thread T_hod, zagruzka_spiska_perv;
-         
+
         to_doc.user_card asdf;
         public String file_name;
         int CURRENT = 0, MAXIMUM = 0;
-        void init_DT() {
+        void init_DT()
+        {
             this.DT_hod = new DispatcherTimer(/*DispatcherPriority.Background*/);
             this.DT_hod.Interval = new TimeSpan(1);
             this.DT_hod.Tick += DT_hod_Tick;
@@ -46,22 +47,23 @@ namespace Общее_приложение_для_AD
         public MainWindow()
         {
             InitializeComponent();
-       
-            
-          
-         //   this.DT_hod.IsEnabled = true;
-          // this.Tomer_for_hod = new Timer( new TimerCallback(TTC),);
+            this.button3.IsEnabled = false;
+
+
+            //   this.DT_hod.IsEnabled = true;
+            // this.Tomer_for_hod = new Timer( new TimerCallback(TTC),);
 
             this.Tomer_for_hod = new System.Timers.Timer(3);
             this.Tomer_for_hod.Elapsed += Tomer_for_hod_Elapsed;
-            
+
 
 
             this.asdf = new to_doc.user_card();
-            if (this.asdf.ctx == null) {
+            if (this.asdf.ctx == null)
+            {
                 MessageBox.Show("Нет доступа к домену!!!");
                 Close();
-              
+
             }
             else
             {
@@ -85,8 +87,8 @@ namespace Общее_приложение_для_AD
             }
             else
             {
-               // this.HOD = new hod_();
-               // this.HOD.Show();
+                // this.HOD = new hod_();
+                // this.HOD.Show();
             }
         }
 
@@ -109,33 +111,35 @@ namespace Общее_приложение_для_AD
             {
                 this.HOD.Setup_param(this.CURRENT, this.MAXIMUM);
             }
-            else {
+            else
+            {
                 this.HOD = new hod_();
                 this.HOD.Show();
             }
         }
-      
+
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog OFD = new OpenFileDialog();
-           // OFD.ShowDialog();
+            // OFD.ShowDialog();
             var BL = (bool)OFD.ShowDialog();
             if (BL == true)
             {
+                this.button3.IsEnabled = true;
                 this.file_name = OFD.FileName;
-                PUT1.Content =  OFD.SafeFileName;
+                PUT1.Content = OFD.SafeFileName;
 
             }
-            else {
+            else
+            {
                 this.file_name = "";
             }
 
         }
-        void Init_hod_window(){
+        void Init_hod_window()
+        {
             this.HOD = new hod_();
             HOD.Show();
-
-
         }
         Thread TH, load_users;
 
@@ -157,7 +161,7 @@ namespace Общее_приложение_для_AD
                 var USER = this.asdf.UsersOnList[u];
 
                 if (this.HOD != null)
-                {                       
+                {
 
                 }
 
@@ -184,14 +188,15 @@ namespace Общее_приложение_для_AD
                                 }
                             }));
                 }
-            } 
+            }
             if (this.HOD != null)
             {
                 // this.HOD.Close();
                 //  this.HOD = null;
             }
         }
-        void INIT_HOD() {
+        void INIT_HOD()
+        {
             this.TH = new Thread(Init_hod_window);
             this.TH.SetApartmentState(ApartmentState.STA);
             this.TH.Start();
@@ -202,11 +207,11 @@ namespace Общее_приложение_для_AD
         List<to_doc.Users> List_USERS_in_gruop;
         /*групы */
         private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {      
+        {
             this.INIT_HOD();
             this.load_users = new Thread(load_users_thread);
             this.load_users.SetApartmentState(ApartmentState.STA);
-            this.load_users.Start();     
+            this.load_users.Start();
         }
         /*пользователи*/
         private void namess_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -265,21 +270,49 @@ namespace Общее_приложение_для_AD
             d.PropertiesToLoad.Add("cn");
             d.PropertiesToLoad.Add("sn");
             d.PropertiesToLoad.Add("manager");
-            var result  = d.FindAll();
-            
+            var result = d.FindAll();
+
 
         }
+        Thread TH1;
+        DispatcherTimer DT;
         private void button3_Click(object sender, RoutedEventArgs e)
         {
+            this.DT = new DispatcherTimer();
+            this.DT.Interval = new TimeSpan(0, 0, 0, 0, 2);
+            this.DT.Tick += DT_Tick;
+            this.DT.Start();
+
             if (this.file_name != null)
             {
                 //button3.IsEnabled = false;
-                Thread TH = new Thread(to_excel_thread);
-                TH.SetApartmentState(ApartmentState.STA);
-                TH.Start(null);
-                TH.Join();
-             //   button3.IsEnabled = true;
+                this.TH1 = new Thread(to_excel_thread);
+                this.TH1.SetApartmentState(ApartmentState.STA);
+                this.TH1.Start(null);
+                // TH.Join();
+                //   button3.IsEnabled = true;
             }
+        }
+
+        private void DT_Tick(object sender, EventArgs e)
+        {
+            // this.HOD = new hod_();
+            try
+            {
+                this.button3.IsEnabled = false;
+                progress__.Maximum = this.EX.BD_c.list_of_users.Count;
+                progress__.Value = this.EX.vot;
+                if (progress__.Maximum == progress__.Value)
+                {
+                    this.button3.IsEnabled = true;
+                }
+            }
+            catch (Exception e1)
+            {
+
+            }
+
+            //throw new NotImplementedException();
         }
 
         private void to_excel_thread(object obj)
@@ -301,5 +334,32 @@ namespace Общее_приложение_для_AD
         {
 
         }
+        //Выход
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {               
+                this.TH1.Abort();
+            }
+            catch (Exception er)
+            {
+            }
+            Application.Current.MainWindow.Close();
+        }
+
+        private void STOP__Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.TH1.Abort(); 
+                this.EX.vot = 0;
+                this.STOP_.IsEnabled = false;
+                this.button3.IsEnabled = false;
+            }
+            catch (Exception er)
+            {
+            }
+        }
+      
     }
 }

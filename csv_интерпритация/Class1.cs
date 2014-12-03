@@ -88,8 +88,8 @@ namespace csv_интерпритация
 
         }
 
-        Excel.Workbook wb;
-        Excel.Application xlApp;
+        public Excel.Workbook wb;
+      public  Excel.Application xlApp;
         private string for_initials(String NAME, String FAM, String OTH)
         {
             if (NAME != null)
@@ -233,6 +233,7 @@ namespace csv_интерпритация
         PrincipalContext ctx;
         GroupPrincipal grp;
         /*типа main))*/
+        public int vot = 0;
         public void ff_osn()
         {
             this.xlApp = new Excel.Application("test.xsxl");
@@ -244,6 +245,7 @@ namespace csv_интерпритация
             wb = this.xlApp.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
             for (int i = 0; i < this.BD_c.list_of_users.Count; i++)
             {
+                this.vot = i;
                 var USER__ = this.BD_c.list_of_users[i];
                 var familia_imya = USER__.familia;
                 var two  = to_doc.NAME_id.return_fam_name_otch(0, familia_imya);

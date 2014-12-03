@@ -238,23 +238,31 @@ namespace to_doc
                 this.PAS = PAS;
             }
         }
-   
+
         public void HTML_to_doc(string FIO, string login, string pass, string SKD, string post)
-        {           
-            var filepath = File.OpenText("..\\..\\HTMLPage1.html");
-            String tesvt = filepath.ReadToEnd();
-            String[] tem_z = { "$FIO", "$login", "$pass", "$skd", "$mail" };
-            tesvt = tesvt.Replace(tem_z[0], FIO);
-            tesvt = tesvt.Replace(tem_z[1], login);
-            tesvt = tesvt.Replace(tem_z[2], pass);
-            tesvt = tesvt.Replace(tem_z[3], SKD);
-            tesvt = tesvt.Replace(tem_z[4], post);
-            File.WriteAllText("temp.html", tesvt);
-            var strtty = Directory.GetCurrentDirectory();
-            Object oMissing = System.Reflection.Missing.Value;
-            if (word == null) word = new Word.Application();
-            word.Visible = true;
-            wordDoc = word.Documents.Open(strtty + "\\temp.html");
+        {
+            try
+            {
+                var strtty = Directory.GetCurrentDirectory();
+                var filepath = File.OpenText(strtty + "\\HTMLPage1.html");
+                String tesvt = filepath.ReadToEnd();
+                String[] tem_z = { "$FIO", "$login", "$pass", "$skd", "$mail" };
+                tesvt = tesvt.Replace(tem_z[0], FIO);
+                tesvt = tesvt.Replace(tem_z[1], login);
+                tesvt = tesvt.Replace(tem_z[2], pass);
+                tesvt = tesvt.Replace(tem_z[3], SKD);
+                tesvt = tesvt.Replace(tem_z[4], post);
+                File.WriteAllText(strtty + "\\temp.html", tesvt);
+
+                Object oMissing = System.Reflection.Missing.Value;
+                if (word == null) word = new Word.Application();
+                word.Visible = true;
+                wordDoc = word.Documents.Open(strtty + "\\temp.html");
+            }
+            catch (Exception trt)
+            {
+
+            }
         }
 
         /*инициализация связи с доменом*/
