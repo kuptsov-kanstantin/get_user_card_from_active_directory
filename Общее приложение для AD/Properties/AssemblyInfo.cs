@@ -7,12 +7,12 @@ using System.Windows;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("Общее приложение для AD")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("report_csv_excel. Генератор отчета Roger СКД с помощью AD")]
+[assembly: AssemblyDescription("Программа для преобразования отчета СКД roger в понятный для человека отчет. Работает при условии наличия AD и прав")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Общее приложение для AD")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCompany("УНИСнефтепроект")]
+[assembly: AssemblyProduct("Генератор отчета Roger СКД с помощью AD")]
+[assembly: AssemblyCopyright("Купцов©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 // Можно задать все значения или принять номер построения и номер редакции по умолчанию, 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("3.5.6.2")]
+[assembly: AssemblyFileVersion("10.10.10.0")]
